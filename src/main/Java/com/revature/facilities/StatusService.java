@@ -1,8 +1,8 @@
-package com.revature.repos;
+package com.revature.facilities;
 
 import com.revature.beans.Status;
 
-public interface StatusRepo {
+public interface StatusService {
 	void updateStatus(Integer statusId);
 	void addStatus(Integer storyId);
 	

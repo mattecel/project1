@@ -4,4 +4,15 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <servlet>
+  	<servlet-name>Author</servlet-name>
+  	<servlet-class>com.revature.controller.FrontController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Author</servlet-name>
+  	<url-pattern>/author</url-pattern>
+  </servlet-mapping>
+
 </web-app>

@@ -1,8 +1,8 @@
-package com.revature.repos;
+package com.revature.facilities;
 
 import com.revature.beans.Approval;
 
-public interface ApprovalRepo {
+public interface ApprovalService {
 	void updateApproval(Integer approvalId);
 	void addApproval(Integer approvalId);
 	
