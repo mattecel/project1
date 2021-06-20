@@ -1,70 +1,80 @@
 package com.revature.controller;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.revature.beans.Author;
+import com.revature.beans.Story;
 import com.revature.facilities.AuthorService;
 import com.revature.facilities.AuthorServiceImpl;
 
 public class FrontController extends HttpServlet {
 
+	class AuthorCred {
+		public String user;
+		public String pass;
+		
+		public AuthorCred(String user, String pass) {
+			super();
+			this.user = user;
+			this.pass = pass;
+		}
+
+		@Override
+		public String toString() {
+			return "AuthorCred [user=" + user + ", pass=" + pass + "]";
+		}
+
+	}
+
 	private AuthorService auths = new AuthorServiceImpl();
 	private Gson gson = new Gson();
+	public static HttpSession session;
+	public JsonParser json = new JsonParser();
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		class AuthorCred {
-			public String user;
-			public String pass;
-		}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, IllegalStateException, JsonSyntaxException {
+//		GsonBuilder gb = new GsonBuilder();
+//		this.gson = gb.create();
 		
-		
+		AuthorCred testA = new AuthorCred("lulu1", "123");
+
 		String uri = request.getRequestURI();
-		String loggedId;
 
-		/*
-		 * for GET requests:
-		 * 
-		 * localhost:8080/CatAppServlet/cats -> get all cats
-		 * 
-		 * /cats/<id> -> get a cat by id
-		 * 
-		 * for POST requests: /cats -> add cat
-		 * 
-		 */
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Content-Type", "application/json");
+
+		session = request.getSession();
+
+		uri = uri.substring("/project1/controller/".length());
+
 		switch (uri) {
-
-		case "/project1/author": {
-
-			if (request.getMethod().equals("GET")) {
-				System.out.println("Getting author....");
-				Author author = auths.getAuthor("lulu1", "123");
-				System.out.println(author);
-				response.setHeader("Access-Control-Allow-Origin", "*");
-				response.getWriter().append(gson.toJson(author));
-
-				break;
-			} else {
-				System.out.println("Adding author...");
-				Author author = auths.getAuthor("lulu1", "123");
-				System.out.println(author);
-				// response.setHeader("Access-Control-Allow-Origin","*");
-				response.setHeader("Origin", "http://localhost:8080/project1/author/");
-				response.getWriter().append(gson.toJson(author));
-				break;
-			}
-
+		
+		case "author-page": {
+			System.out.println("Author Page loading");
+			Author alogg = (Author) session.getAttribute("logged_in");
+			Author loggedAuthor = auths.getAuthor(alogg.getAuthorId());
+			System.out.println(loggedAuthor);
+			response.getWriter().append(gson.toJson(loggedAuthor));
+			System.out.println("Sent author object to front end");
 		}
-		case ("/project1/author-login"): {
-			AuthorCred aci = this.gson.fromJson(request.getReader(), AuthorCred.class);
-			Author a = auths.getAuthor(aci.user, aci.pass);
-			session.setAttribute("logged_in", a)
+		
+		
+
+		case "home": {
+			response.getWriter().append("AuthorLogin.html");
+			break;
 		}
 
 		default: {
@@ -78,7 +88,38 @@ public class FrontController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.getWriter().append("Post request");
+		AuthorCred testA = new AuthorCred("lulu1", "123");
+
+		String uri = request.getRequestURI();
+		String json = gson.toJson(testA);
+		System.out.println(json);
+
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Content-Type", "application/json");
+
+		session = request.getSession();
+
+		uri = uri.substring("/project1/controller/".length());
+		
+		switch (uri) {
+
+		case "author-login": {
+			System.out.println("Received author login!");
+			System.out.println(request.getReader());
+				AuthorCred ac = gson.fromJson(request.getReader(), AuthorCred.class);
+				System.out.println(ac);
+				Author a = auths.getAuthor(ac.user, ac.pass);
+				if (a != null) {
+					session.setAttribute("logged_in", a);
+					response.getWriter().append("AuthorPage.html");
+					System.out.println("Author log in g00d");
+				} else {
+					System.out.println("Failed to login");
+				}
+			break;
+		}
+		}
+		
 	}
 
 }

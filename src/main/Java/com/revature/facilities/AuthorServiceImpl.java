@@ -10,13 +10,13 @@ public class AuthorServiceImpl implements AuthorService {
 	@Override
 	public void addAuthor(Author a) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateAuthor(Integer id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -26,8 +26,8 @@ public class AuthorServiceImpl implements AuthorService {
 
 	@Override
 	public Author getAuthor(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return authDao.getAuthor(id);
 	}
 
 }

@@ -11,10 +11,9 @@ import utils.JDBCConnection;
 
 public class AuthorDAO implements AuthorRepo {
 
-	
 	private Connection conn = JDBCConnection.getConnection();
 	private StoryRepo stoDao = new StoryDAO();
-	
+
 	@Override
 	public void addAuthor(Author a) {
 		// If i get around to registering new users;
@@ -30,7 +29,7 @@ public class AuthorDAO implements AuthorRepo {
 	@Override
 	public Author getAuthor(String user, String pass) { // passed username and password
 		String sql = "select * from authors where author_username = ? and author_password = ?";
-		
+
 		try {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -47,7 +46,7 @@ public class AuthorDAO implements AuthorRepo {
 				a.setAuthorFirstName(rs.getString("author_first_name"));
 				a.setAuthorLastName(rs.getString("author_last_name"));
 				a.setAuthorPoints(rs.getInt("author_points"));
-					
+
 				a.setStories(stoDao.getStories(a.getAuthorId()));
 				return a;
 			}
@@ -61,7 +60,31 @@ public class AuthorDAO implements AuthorRepo {
 
 	@Override
 	public Author getAuthor(Integer id) {
-		// TODO Auto-generated method stub
+		String sql = "select * from authors where author_id = ?";
+
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Author a = new Author();
+				a.setAuthorId(rs.getInt("author_id"));
+				a.setAuthorUsername(rs.getString("author_username"));
+				a.setAuthorPassword(rs.getString("author_password"));
+				a.setAuthorFirstName(rs.getString("author_first_name"));
+				a.setAuthorLastName(rs.getString("author_last_name"));
+				a.setAuthorPoints(rs.getInt("author_points"));
+
+				a.setStories(stoDao.getStories(a.getAuthorId()));
+				return a;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
