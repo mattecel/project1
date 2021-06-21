@@ -45,10 +45,6 @@ public class FrontController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, IllegalStateException, JsonSyntaxException {
-//		GsonBuilder gb = new GsonBuilder();
-//		this.gson = gb.create();
-		
-		AuthorCred testA = new AuthorCred("lulu1", "123");
 
 		String uri = request.getRequestURI();
 
@@ -88,10 +84,8 @@ public class FrontController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		AuthorCred testA = new AuthorCred("lulu1", "123");
 
 		String uri = request.getRequestURI();
-		String json = gson.toJson(testA);
 		System.out.println(json);
 
 		response.setHeader("Access-Control-Allow-Origin", "*");
@@ -104,8 +98,6 @@ public class FrontController extends HttpServlet {
 		switch (uri) {
 
 		case "author-login": {
-			System.out.println("Received author login!");
-			System.out.println(request.getReader());
 				AuthorCred ac = gson.fromJson(request.getReader(), AuthorCred.class);
 				System.out.println(ac);
 				Author a = auths.getAuthor(ac.user, ac.pass);

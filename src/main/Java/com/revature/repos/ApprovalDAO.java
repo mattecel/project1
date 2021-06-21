@@ -1,10 +1,10 @@
 package com.revature.repos;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import com.revature.beans.Approval;
 
 import utils.JDBCConnection;
@@ -14,14 +14,41 @@ public class ApprovalDAO implements ApprovalRepo {
 	private Connection conn = JDBCConnection.getConnection();
 
 	@Override
-	public void updateApproval(Integer approvalId) {
-		// TODO Auto-generated method stub
+	public void updateApproval(Approval a) {
+		String sql = "update approvals set approval_status = ?, approval_info= ?, approval_number = ? where approval_id = ?;";
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, a.getApprovalStatus());
+			ps.setString(2, a.getApprovalInfo());
+			ps.setInt(3, a.getApprovalNumber());
+			ps.setInt(4, a.getApprovalId());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-	public void addApproval(Integer approvalId) {
-		// TODO Auto-generated method stub
+	public void addApproval(Approval a, Integer statusId) {
+		String sql = "insert into approvals values (DEFAULT, ?, ?, ?, ?);";
+
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, a.getApprovalStatus());
+			ps.setString(2, a.getApprovalInfo());
+			ps.setInt(3, a.getApprovalNumber());
+			ps.setInt(4, statusId);
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
