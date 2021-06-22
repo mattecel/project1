@@ -119,7 +119,65 @@ public class EmployeeDAO implements EmployeeRepo {
 
 	@Override
 	public Employee getEmployee(Integer employeeId) {
-		// TODO Auto-generated method stub
+		String sql = "select * from employees where employee_id = ?";
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, employeeId);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Employee e = new Employee();
+				e.setEmployeeId(employeeId);
+				e.setEmployeeUsername(rs.getString("employee_username"));
+				e.setEmployeePassword(rs.getString("employee_username"));
+				e.setEmployeeFirstName(rs.getString("employee_first_name"));
+				e.setEmployeeLastName(rs.getString("employee_last_name"));
+				e.setEmployeeType(rs.getString("employee_type"));
+				
+				Integer st1id = rs.getInt("employee_story1");
+				Integer st2id = rs.getInt("employee_story2");
+				Integer st3id = rs.getInt("employee_story3");
+
+				if (st1id != null && st1id != 0) {
+					e.setStory1(stDao.getStoryById(st1id));
+				}
+				
+				if (st2id != null && st2id != 0) {
+					e.setStory2(stDao.getStoryById(st2id));
+				}
+				
+				if (st3id != null && st3id != 0) {
+					e.setStory3(stDao.getStoryById(st3id));
+				}
+				
+				if (rs.getInt("employee_genre1") == 1) {
+					e.setGenre1("Mystery");
+				} else {
+					e.setGenre1("Romance");
+				}
+				
+				if (rs.getInt("employee_genre2") == 2) {
+					e.setGenre1("Fantasy");
+				} else {
+					e.setGenre1("Thriller");
+				}
+				
+				if (rs.getInt("employee_genre3") == 3) {
+					e.setGenre1("Horror");
+				} else {
+					e.setGenre1("Biography");
+				}
+				
+				
+				
+				return e;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

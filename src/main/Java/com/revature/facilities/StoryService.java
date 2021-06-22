@@ -6,8 +6,8 @@ import com.revature.beans.Story;
 
 public interface StoryService {
 	List<Story> getStories (Integer authorId); 
-	Story getStory (Integer storyId);
+	Story getStory(Integer storyId);
 	
-	void updateStory(Integer storyId);
-	void addStory(Story story, Integer authorId);
+	Story updateStory(Story story);
+	Story addStory(Story story, Integer authorId);
 }

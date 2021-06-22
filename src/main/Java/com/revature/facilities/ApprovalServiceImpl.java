@@ -1,31 +1,27 @@
 package com.revature.facilities;
 
 import com.revature.beans.Approval;
+import com.revature.repos.ApprovalDAO;
+import com.revature.repos.ApprovalRepo;
 
 public class ApprovalServiceImpl implements ApprovalService {
+	private ApprovalRepo appDao = new ApprovalDAO();
+	
 
 	@Override
-	public void updateApproval(Integer approvalId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addApproval(Integer approvalId) {
-		// TODO Auto-generated method stub
-		
+	public Approval updateApproval(Approval app) {
+		appDao.updateApproval(app);
+		return appDao.getApproval(app.getApprovalId());
 	}
 
 	@Override
 	public Approval getApprovalByStatus(Integer statusId) {
-		// TODO Auto-generated method stub
-		return null;
+		return appDao.getApprovalByStatus(statusId);
 	}
 
 	@Override
 	public Approval getApproval(Integer approvalId) {
-		
-		return null;
+		return appDao.getApproval(approvalId);
 	}
 
 }

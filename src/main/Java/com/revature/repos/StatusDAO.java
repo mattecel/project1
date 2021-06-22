@@ -1,12 +1,12 @@
 package com.revature.repos;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.revature.beans.Status;
-
 import utils.JDBCConnection;
 
 public class StatusDAO implements StatusRepo {
@@ -15,15 +15,53 @@ public class StatusDAO implements StatusRepo {
 	private ApprovalRepo appDao = new ApprovalDAO();
 
 	@Override
-	public void updateStatus(Integer statusId) {
-		// TODO Auto-generated method stub
+	public void updateStatus(Status st) {
+		String sql = "Update statuses set status = ?, priority = ?, status_date = ?, assistant_info = ?, author_info = ?, general_info = ?, senior_info = ? where status_id = ?;";
+
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, st.getStatus());
+			ps.setBoolean(1, st.isPriority());
+			ps.setString(1, st.getStatusDate());
+			ps.setString(1, st.getAssistantInfo());
+			ps.setString(1, st.getAuthorInfo());
+			ps.setString(1, st.getGeneralInfo());
+			ps.setString(1, st.getSeniorInfo());
+			ps.setInt(1, st.getStatusId());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-	public void addStatus(Integer storyId) {
-		// TODO Auto-generated method stub
-		
+	public Status addStatus(Status st, Integer storyId) {
+		String sql = "insert into statuses values (DEFAULT, ?, ?, ?, ?, ?, ?, ?);";
+
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, st.getStatus());
+			ps.setBoolean(2, st.isPriority());
+			ps.setString(1, st.getStatusDate());
+			ps.setString(1, st.getAssistantInfo());
+			ps.setString(1, st.getAuthorInfo());
+			ps.setString(1, st.getGeneralInfo());
+			ps.setString(1, st.getSeniorInfo());
+			ps.setInt(4, storyId);
+
+			ps.executeUpdate();
+			
+			return getStatusByStory(storyId);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
@@ -61,7 +99,34 @@ public class StatusDAO implements StatusRepo {
 
 	@Override
 	public Status getStatus(Integer statusId) {
-		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM statuses where status_id = ?;";
+
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, statusId);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Status s = new Status();
+				s.setStatusId(rs.getInt("status_id"));
+				s.setStatus(rs.getString("status"));
+				s.setPriority(rs.getBoolean("priority"));
+				s.setStatusDate(rs.getString("status_date"));
+				s.setAssistantInfo(rs.getString("assistant_info"));
+				s.setAuthorInfo(rs.getString("author_info"));
+				s.setGeneralInfo(rs.getString("general_info"));
+				s.setSeniorInfo(rs.getString("senior_info"));
+				
+				s.setApproval(appDao.getApprovalByStatus(s.getStatusId()));
+
+				return s;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
