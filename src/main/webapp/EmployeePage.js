@@ -1,30 +1,40 @@
 
 const URL = 'http://localhost:8080/project1/controller';
 // temp author object
-let IamthebetterMatt = document.getElementById("weight")
-let author = {"authorId": 1,
-"authorUsername": "lulu1",
-"authorPassword": "123",
-"authorFirstName": "Lulu",
-"authorLastName": "Hill",
-"authorPoints": 60,
-"stories": [
-    {
-        "storyId": 3,
-        "title": "Murder in Heaven",
-        "tagline": "Who killed Santa Claus?",
-        "description": "A short story depicting a bloody end to Saint Nick",
+let employee = {
+
+    "employeeId": 1,
+    "employeeUsername": "demi1",
+    "employeePassword": "123",
+    "employeeFirstName": "Demi",
+    "employeeLastName": "Bush",
+    "employeeType": "assistant",
+    "genre1": "Mystery",
+    "genre2": "Fantasy",
+    "genre3": "Horror",
+
+    "story1": {
+        "storyId": 1,
+        "title": "All The Devils",
+        "tagline": "Who killed Matt Ecelbarger?",
+        "description": "A novel depicting a justified murder of a mad man",
         "completionDate": "2021-06-07",
         "genre": "Mystery",
         "weight": "Novella",
         "status": {
             "statusId": 3,
-            "status": "pending_general",
+            "status": "pending_approval",
             "priority": false,
-            "statusDate": "2021-06-14"
+            "statusDate": "2021-06-14",
+            "approval": {
+                "approvalId": 1,
+                "approvalStatus": "committee",
+                "approvalInfo": "Fix this dumb draft u fool",
+                "approvalNumber": 2
+            }
         }
     },
-    {
+    "story2": {
         "storyId": 4,
         "title": "Lord of the Kings",
         "tagline": "Who will sit on the copper throne?",
@@ -39,22 +49,22 @@ let author = {"authorId": 1,
             "statusDate": "2021-06-14"
         }
     },
-    {
-        "storyId": 5,
-        "title": "Gone Boy",
-        "tagline": "Where did that boy go?",
-        "description": "An article detailing the horrifying case of John Snow, The Woodland Killer.",
-        "completionDate": "2021-06-05",
-        "genre": "Horror",
-        "weight": "Short Story",
+    "story3": {
+        "storyId": 3,
+        "title": "Murder in Heaven",
+        "tagline": "Who killed Santa Claus?",
+        "description": "A short story depicting a bloody end to Saint Nick",
+        "completionDate": "2021-06-07",
+        "genre": "Mystery",
+        "weight": "Novella",
         "status": {
-            "statusId": 5,
-            "status": "pending_senior",
+            "statusId": 3,
+            "status": "pending_general",
             "priority": false,
             "statusDate": "2021-06-14"
         }
     }
-]};
+};
 
 const getStory = () => {
 
@@ -62,7 +72,7 @@ const getStory = () => {
 
     xhttp.onreadystatechange = recieveData;
 
-    xhttp.open("GET", URL + "/author-page", true);
+    xhttp.open("GET", URL + "/employee-page", true);
     xhttp.send();
 
      function recieveData () {
@@ -70,10 +80,10 @@ const getStory = () => {
         if (xhttp.readyState == 4) {
             if (xhttp.status == 200) {
                let r = xhttp.response;
-                rr = r.replace("AuthorLogin.html", "")
-                author = JSON.parse(rr);
-                console.log(author);
-                populateData(author);
+                rr = r.replace("EmployeeLogin.html", "")
+                employee = JSON.parse(rr);
+                console.log(employee);
+                populateData(employee);
 
             } else {
                 // Ready state is done but status code is not "Ok"
@@ -86,33 +96,55 @@ const getStory = () => {
 // *************************
 // change this to getStory()
 // *************************
-window.onload = populateData(author);
+window.onload = populateData(employee);
 // *************************
 // *************************
 
-function populateData (at) {
+function populateData(em) {
+    let prioExists = false;
     let storySection = document.getElementById("stories");
+    let eType = em.employeeType;
 
-    // Author Welcome
+    // Employee Welcome
     let authorWelcome = document.createElement('h2');
-    authorWelcome.innerHTML = "Welcome, " + at.authorFirstName + " " + at.authorLastName + "!";
+    authorWelcome.innerHTML = "Salutations valued personnel: " + em.employeeFirstName + " " + em.employeeLastName;
     authorWelcome.setAttribute("class", "author-welcome") ;
     storySection.appendChild(authorWelcome);
 
-    // Current points
-    let authorPoints = document.createElement('h3'); // may need a diff name than author points
-    authorPoints.innerHTML = "Your current points are: " + at.authorPoints;
-    authorPoints.setAttribute("class", "author-points");
-    storySection.appendChild(authorPoints);
+    //Employee Genres
+    let authorGenreBox = document.createElement('div');
+    authorGenreBox.setAttribute("class", "author-box")
+    storySection.appendChild(authorGenreBox);
 
-    // Create a story button
+    let genArr = []
+    genArr.push(em.genre1, em.genre2, em.genre3);
+    genArr.map(g => {
+        let geEl = document.createElement('h4');
+        geEl.innerHTML = g;
+        geEl.setAttribute("class", "genre");
+        authorGenreBox.appendChild(geEl);
+    })
+
 
     // Stories Container
     let storiesContainer = document.createElement('div');
     storiesContainer.setAttribute("class", "sto-container");
     storySection.appendChild(storiesContainer);
 
-    at.stories.map(st => {
+    let mattArray = [];
+    mattArray.push(em.story1)
+    mattArray.push(em.story2)
+    mattArray.push(em.story3)
+
+    // finding if any statuses are high prio 
+    mattArray.map(st => {
+        if (st.status.priority) {
+            prioExists = true;
+        }
+    })
+
+    mattArray.map(st => {
+
         // Story Container
         let stoBox = document.createElement('div');
         stoBox.setAttribute("class", "sto-box");
@@ -159,15 +191,32 @@ function populateData (at) {
         let staBox = document.createElement('div')
         staBox.setAttribute("class", "sta-box");
 
+        // Status Header
+        let staHeader = document.createElement('h3')
+        staHeader.innerHTML = "STATUS";
+        staBox.appendChild(staHeader);
+
         // Status
         let staStatus = document.createElement('h5')
         staStatus.innerHTML = sta.status;
         staStatus.setAttribute("class", "sto-tagline");
         staBox.appendChild(staStatus);
 
+        // Priority
+        let staPriority = document.createElement('h5')
+
+        if (sta.priority) {
+            staPriority.innerHTML = "High Priority";
+            staPriority.setAttribute("class", "sta-priority-high");
+        } else {
+            staPriority.innerHTML = "Low Priority";
+            staPriority.setAttribute("class", "sta-priority=low");
+        }
+        staBox.appendChild(staPriority);
+
         // Status Date
         let staDate = document.createElement('p')
-        staDate.innerHTML = "Pending Approval Date: " + sta.statusDate;
+        staDate.innerHTML = "Status Date: " + sta.statusDate;
         staDate.setAttribute("class", "sto-completion-date");
         staBox.appendChild(staDate);
 
@@ -195,13 +244,62 @@ function populateData (at) {
             staBox.appendChild(staSeniorInfo);
         }
 
+        // Status Approve Button
+        let penBtn = document.getElementById("ustat-btn");
+        penBtn.addEventListener('click',() => {
+            updateStatus(sta)
+        });
+
+        let psta = sta.status;
+        let pstaSelect = document.getElementById("ustat-sel")
+
+        // Dynamically added priority
+        if (prioExists) {
+            if (sta.priority) {
+                if (psta === "pending_senior" || psta === "pending_approval") {
+                    if (eType === "senior") {
+                        let opt1 = document.createElement('option')
+                        opt1.innerHTML = st.storyId + ": " + st.title;
+                        opt1.setAttribute("value", st.storyId);
+                        pstaSelect.appendChild(opt1);
+                    }
+                } else {
+                    let opt1 = document.createElement('option')
+                    opt1.innerHTML = st.storyId + ": " + st.title;
+                    opt1.setAttribute("value", st.storyId);
+                    pstaSelect.appendChild(opt1);
+                }
+            }
+        } else {
+            if (psta === "pending_senior" || psta === "pending_approval") {
+                if (eType === "senior") {
+                    let opt1 = document.createElement('option')
+                    opt1.innerHTML = st.storyId + ": " + st.title;
+                    opt1.setAttribute("value", st.storyId);
+                    pstaSelect.appendChild(opt1);
+                }
+            } else {
+                let opt1 = document.createElement('option')
+                opt1.innerHTML = st.storyId + ": " + st.title;
+                opt1.setAttribute("value", st.storyId);
+                pstaSelect.appendChild(opt1);
+            }
+        }
+
+
         //--------------------------------------
-        // Approval Object 
+        // Approval Object
+        
         if (sta.status == "pending_approval") {
             let app = sta.approval;
             // Approval Box
             let appBox = document.createElement('div')
             appBox.setAttribute("class", "app-box");
+
+            // App Header
+            let appHeader = document.createElement('h3')
+            appHeader.innerHTML = "APPROVAL PROCESS";
+            appBox.appendChild(appHeader);
 
             // Approval Status
             let appStatus = document.createElement('h5')
@@ -219,119 +317,57 @@ function populateData (at) {
 
             // Approval Number
             let appNumber = document.createElement('h5')
-            appNumber.innerHTML = "Need 3, currently at: " + app.approvalNumber;
+            appNumber.innerHTML = "Need 3 approval votes, currently at: " + app.approvalNumber;
             appNumber.setAttribute("class", "sto-genre");
             appBox.appendChild(appNumber);
 
+            if (appNumber < 3) {
+                let appBtn = document.createElement('button');
+                appBtn.innerHTML = "Final Approval";
+                appBtn.setAttribute("class", "app-btn");
+                appBtn.addEventListener('click', () => {
+                    updateApproval(st)
+                });
+            }
             staBox.appendChild(appBox);
         }
-
         // attach populated containers
         stoBox.appendChild(staBox);
         storySection.appendChild(stoBox);
     })
+
 }
 
-document.getElementById("sololo").addEventListener('click', showAddStory);
+function updateStatus(sta) {
+    let oldSta = sta.status
+    let nSta = ""
+    let uSta = sta;
 
-
-function showAddStoryC() {
-    showAddStory(author)
-}
-
-function showAddStory(at) {
-    let apts = at.authorPoints;
-
-    if(apts >= 50) {
-        let novel = document.createElement('option')
-        novel.innerHTML = "Novel (101+ pages)";
-        novel.setAttribute("value", "Novel");
-        IamthebetterMatt.appendChild(novel);
+    if (oldSta === "pending_assistant") {
+        nSta = "pending_general"
     }
-
-    if(apts >= 25) {
-        let novella = document.createElement('option')
-        novella.innerHTML = "Novella (21-100 pages)";
-        novella.setAttribute("value", "Novella");
-        IamthebetterMatt.appendChild(novella);
+    if (oldSta === "pending_general") {
+        nSta = "pending_senior"
     }
-
-    if(apts >= 10) {
-        let shortstory = document.createElement('option')
-        shortstory.innerHTML = "Short Story (3-10 pages)";
-        shortstory.setAttribute("value", "Short Story");
-        IamthebetterMatt.appendChild(shortstory);
-    }
-
-    if(apts >= 0) {      
-        let article = document.createElement('option')
-        article.innerHTML = "Article (1-2 pages)";
-        article.setAttribute("value", "Article");
-        IamthebetterMatt.appendChild(article);
-    }
-    showEls();
-}
-
-function showEls() {
-    let elems = document.querySelectorAll(".hidden")
-    for (let index = 0; index < elems.length; index++) {
-        elems[index].classList.remove('hidden')
-    }
-}
-
-
-document.getElementById("add-story__submit").addEventListener('click', addStory);
-
-function addStory() {
-    let aSto = {
-            title: document.getElementById(title).value,
-            tagline: document.getElementById(tagline).value,
-            description: document.getElementById(description).value,
-            completionDate: document.getElementById(date).value,
-            genre: document.getElementById(genre).value,
-            weight: document.getElementById(weight).value,
-            status: {
-                status: "pending_assistant",
-                priority: false,
-                statusDate: "2021-06-25",
-                approval: {
-                    approvalStatus: null,
-                    approvalInfo: null,
-                    approvalNumber: null,
-                }
-            }
-    }
-
-    let pts = 0;
-    if(aSto.weight === "Novel") {
-        pts = 50;
+    if (oldSta === "pending_senior") {
+        nSta = "pending_approval"
+        console.log(uSta);
+        uSta.status.approval[status] = "committee"
     }
     
-    if(aSto.weight === "Novella") {
-        pts = 25;
-    }
-    
-    if(aSto.weight === "Short Story") {
-        pts = 20;
-    }
-    
-    if(aSto.weight === "Article") {
-        pts = 10;
-    }
+    uSta[status] = nSta;
 
-    stoJson = JSON.stringify(aSto);
-    
+    jSta = JSON.stringify(uSta);
+
     let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = postStory;
-    xhttp.open("POST", URL + "/add-story", true);
-    xhttp.send(stoJson);
+    xhttp.onreadystatechange = postStatus;
+    xhttp.open("POST", URL + "/update-status", true);
+    xhttp.send(jSta);
 
-    function postStory () {
+    function postStatus() {
         if (xhttp.readyState == 4) {
             if (xhttp.status == 200) {
-                updateAuthor(author, pts)
-                alert("Story Accepted. Your new story will show up the next time you log in!")
-
+                location.reload();
             } else {
                 // Ready state is done but status code is not "Ok"
             }
@@ -341,20 +377,55 @@ function addStory() {
     }
 }
 
-function updateAuthor (at, pts) {
-    let trueValueOfMySoul = at.authorPoints - pts;
-
+function updateApproval(st) {
+    let sid = st.storyId;
     let author = {
-        authorId: at.authorId,
-        authorPoints: trueValueOfMySoul
+        authorId: 0,
+        authorPoints: 0
     }
 
-    autJson = JSON.stringify(author);
+    if (sid == 1) {
+        author[authorId] = 3
+        author[authorPoints] = 100
+    }
+
+    let oApp = st.status.approval;
+    oApp[status] = "approved"
+
+    jApp = JSON.stringify(oApp);
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = postApproval;
+    xhttp.open("POST", URL + "/update-approval", true);
+    xhttp.send(jApp);
+
+    function postApproval() {
+        if (xhttp.readyState == 4) {
+            if (xhttp.status == 200) {
+                updateAuthor(author)
+                location.reload();
+            } else {
+
+                // Ready state is done but status code is not "Ok"
+            }
+        } else {
+            // error handling
+        }
+    }
+}
+
+function updateAuthor (at) {
+    let author = {
+        authorId: at.authorId,
+        authorPoints: at.authorPoints
+    }
+
+    jAuthor = JSON.stringify(author);
 
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = postAuthor;
     xhttp.open("POST", URL + "/update-author", true);
-    xhttp.send(stoJson);
+    xhttp.send(jAuthor);
 
     function postAuthor () {
         if (xhttp.readyState == 4) {
@@ -370,9 +441,9 @@ function updateAuthor (at, pts) {
 
 // logout
 let logoutbtn = document.getElementById("logout");
-logoutbtn.addEventListener(() => {
-    logout()
-}, false)
+logoutbtn.addEventListener('click',() => {
+    logout();
+});
 
 function logout() {
     // finish this on backend
@@ -381,7 +452,7 @@ function logout() {
     xhttp.open("GET", URL + "/logout", true);
     xhttp.send();
 
-    function postAuthor () {
+    function logoutPlease () {
         if (xhttp.readyState == 4) {
             if (xhttp.status == 200) {
                 window.location.href = "AuthorLogin.html";
@@ -393,3 +464,5 @@ function logout() {
         }
     }
 }
+
+

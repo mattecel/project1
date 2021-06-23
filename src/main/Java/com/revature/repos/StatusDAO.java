@@ -22,15 +22,16 @@ public class StatusDAO implements StatusRepo {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, st.getStatus());
-			ps.setBoolean(1, st.isPriority());
-			ps.setString(1, st.getStatusDate());
-			ps.setString(1, st.getAssistantInfo());
-			ps.setString(1, st.getAuthorInfo());
-			ps.setString(1, st.getGeneralInfo());
-			ps.setString(1, st.getSeniorInfo());
-			ps.setInt(1, st.getStatusId());
+			ps.setBoolean(2, st.isPriority());
+			ps.setString(3, st.getStatusDate());
+			ps.setString(4, st.getAssistantInfo());
+			ps.setString(5, st.getAuthorInfo());
+			ps.setString(6, st.getGeneralInfo());
+			ps.setString(7, st.getSeniorInfo());
+			ps.setInt(8, st.getStatusId());
 
 			ps.executeUpdate();
+			appDao.updateApproval(st.getApproval());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -47,12 +48,12 @@ public class StatusDAO implements StatusRepo {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, st.getStatus());
 			ps.setBoolean(2, st.isPriority());
-			ps.setString(1, st.getStatusDate());
-			ps.setString(1, st.getAssistantInfo());
-			ps.setString(1, st.getAuthorInfo());
-			ps.setString(1, st.getGeneralInfo());
-			ps.setString(1, st.getSeniorInfo());
-			ps.setInt(4, storyId);
+			ps.setString(3, st.getStatusDate());
+			ps.setString(4, st.getAssistantInfo());
+			ps.setString(5, st.getAuthorInfo());
+			ps.setString(6, st.getGeneralInfo());
+			ps.setString(7, st.getSeniorInfo());
+			ps.setInt(8, storyId);
 
 			ps.executeUpdate();
 			

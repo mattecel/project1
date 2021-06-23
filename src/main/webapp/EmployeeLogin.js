@@ -7,19 +7,19 @@ document.getElementById('login-button').addEventListener('click', login);
 function login() {
     console.log("button is clicked");
 
-    let authorCred = {
+    let empCred = {
         user: document.getElementById('username').value,
         pass: document.getElementById('password').value
     }
 
-    jsonCred = JSON.stringify(authorCred);
+    jsonCred = JSON.stringify(empCred);
     console.log(jsonCred);
 
     let xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = recieveData;
 
-    xhttp.open("POST", URL + "/author-login", true);
+    xhttp.open("POST", URL + "/employee-login", true);
     xhttp.send(jsonCred);
 
      function recieveData () {

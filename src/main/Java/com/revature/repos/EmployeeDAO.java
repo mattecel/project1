@@ -64,6 +64,7 @@ public class EmployeeDAO implements EmployeeRepo {
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
+				System.out.println("starting dao call for employee");
 				Employee e = new Employee();
 				e.setEmployeeId(rs.getInt("employee_id"));
 				e.setEmployeeUsername(user);
@@ -95,18 +96,18 @@ public class EmployeeDAO implements EmployeeRepo {
 				}
 				
 				if (rs.getInt("employee_genre2") == 2) {
-					e.setGenre1("Fantasy");
+					e.setGenre2("Fantasy");
 				} else {
-					e.setGenre1("Thriller");
+					e.setGenre2("Thriller");
 				}
 				
 				if (rs.getInt("employee_genre3") == 3) {
-					e.setGenre1("Horror");
+					e.setGenre3("Horror");
 				} else {
-					e.setGenre1("Biography");
+					e.setGenre3("Biography");
 				}
 				
-				
+		
 				
 				return e;
 			}
@@ -131,7 +132,7 @@ public class EmployeeDAO implements EmployeeRepo {
 				Employee e = new Employee();
 				e.setEmployeeId(employeeId);
 				e.setEmployeeUsername(rs.getString("employee_username"));
-				e.setEmployeePassword(rs.getString("employee_username"));
+				e.setEmployeePassword(rs.getString("employee_password"));
 				e.setEmployeeFirstName(rs.getString("employee_first_name"));
 				e.setEmployeeLastName(rs.getString("employee_last_name"));
 				e.setEmployeeType(rs.getString("employee_type"));
@@ -159,15 +160,15 @@ public class EmployeeDAO implements EmployeeRepo {
 				}
 				
 				if (rs.getInt("employee_genre2") == 2) {
-					e.setGenre1("Fantasy");
+					e.setGenre2("Fantasy");
 				} else {
-					e.setGenre1("Thriller");
+					e.setGenre2("Thriller");
 				}
 				
 				if (rs.getInt("employee_genre3") == 3) {
-					e.setGenre1("Horror");
+					e.setGenre3("Horror");
 				} else {
-					e.setGenre1("Biography");
+					e.setGenre3("Biography");
 				}
 				
 				
@@ -230,20 +231,19 @@ public class EmployeeDAO implements EmployeeRepo {
 				}
 				
 				if (rs.getInt("employee_genre2") == 2) {
-					e.setGenre1("Fantasy");
+					e.setGenre2("Fantasy");
 				} else {
-					e.setGenre1("Thriller");
+					e.setGenre2("Thriller");
 				}
 				
 				if (rs.getInt("employee_genre3") == 3) {
-					e.setGenre1("Horror");
+					e.setGenre3("Horror");
 				} else {
-					e.setGenre1("Biography");
+					e.setGenre3("Biography");
 				}
-				
 				employees.add(e);
 			}
-			
+			return employees;
 		} catch (SQLException exc) {
 			exc.printStackTrace();
 		}

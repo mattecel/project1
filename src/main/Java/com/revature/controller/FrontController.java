@@ -119,7 +119,6 @@ public class FrontController extends HttpServlet {
 		case "logout": {
 			System.out.println("Logging out");
 			session.invalidate();
-			response.getWriter().append("AuthorLogin.html");
 			break;
 		}
 
@@ -155,7 +154,7 @@ public class FrontController extends HttpServlet {
 				response.getWriter().append("AuthorPage.html");
 				System.out.println("Author log in g00d");
 			} else {
-				System.out.println("Failed to login");
+				System.out.println("Failed to login at author");
 			}
 			break;
 		}
@@ -169,16 +168,19 @@ public class FrontController extends HttpServlet {
 				response.getWriter().append("EmployeePage.html");
 				System.out.println("Author log in g00d");
 			} else {
-				System.out.println("Failed to login");
+				System.out.println("Failed to login at employee");
 			}
 			break;
 		}
 		
 		case "add-story": {
 			Story story = gson.fromJson(request.getReader(), Story.class);
+			// Check if date format correct
+			System.out.println(story.getCompletionDate());
 			Author alogg = (Author) session.getAttribute("logged_in");
 			System.out.println(story);
-			stos.addStory(story, alogg.getAuthorId());
+			Story addedStory = stos.addStory(story, alogg.getAuthorId());
+			ems.addEmployeeToStory(addedStory);
 			break;
 		}
 		
@@ -215,6 +217,12 @@ public class FrontController extends HttpServlet {
 			System.out.println(app);
 			apps.updateApproval(app);
 			break;
+		}
+		
+		default: {
+			
+			System.out.println("Reached the default case in post...");
+			response.sendError(418, "BRB MAKING TEA");
 		}
 
 		}

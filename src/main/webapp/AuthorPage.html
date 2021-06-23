@@ -8,9 +8,43 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <section id="stories">
+  <button id="logout" class="login-button">Logout</button>
+    <section id="stories"></section>
+    <section class="add-story">
+        <form class=add-story__form>
+            <label class="hidden" for="title">Title</label>
+            <input class="hidden" type="text" id="title" name="title" placeholder="Story Title...">
+        
+            <label class="hidden" for="tagline">Tagline</label>
+            <input class="hidden" type="text" id="tagline" name="tagline" placeholder="Story Tagline..">
 
+            <label class="hidden" for="description">Description</label>
+            <textarea class="hidden" id="description" name="description" placeholder="Story description.." style="height:200px"></textarea>
 
+            <label class="hidden" for="date">Est. Completion Date</label>
+            <input class="hidden" type="text" id="date" name="date" placeholder="mm/dd/yyyy">
+        
+            <label class="hidden" for="genre">Genre</label>
+            <select class="hidden" id="genre" name="genre">
+              <option value="Mystery">Mystery</option>
+              <option value="Fantasy">Fantasy</option>
+              <option value="Horror">Horror</option>
+              <option value="Romance">Romance</option>
+              <option value="Thriller">Thriller</option>
+              <option value="Biography">Biography</option>
+            </select>
+
+            <label class="hidden" for="weight">Story Type</label>
+            <select class="hidden" id="weight" name="weight">
+              <option class="hidden" id="novel" value="Novel">Novel (101+ pages)</option>
+              <option class="hidden" id="novella" value="Novella">Novella (21-100 pages)</option>
+              <option class="hidden"  id="shortstory" value="Short Story">Short Story (3-10 pages)</option>
+              <option class="hidden"  id="article" value="Article">Article (1-2 pages)</option>
+            </select>
+            <input id="add-story__submit" class="hidden" type="submit" value="Submit">
+        </form>
+        <br>
+        <button id="sololo" class="add-story__btn">Add Story</button>
     </section>
     <script src="./AuthorPage.js"></script>
 </body>

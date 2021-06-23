@@ -23,7 +23,9 @@ public class StoryDAO implements StoryRepo {
 	public void addStory(Story story, Integer id) {
 		// story_id, title, tagline, description, completion_date, author_id, genre_id,
 		// weight_id, status_id
+		
 		String sql = "insert into stories values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) returning story_id;";
+		
 		String sGen = story.getGenre();
 		String sWei = story.getWeight();
 		Status stat = story.getStatus();
@@ -43,7 +45,7 @@ public class StoryDAO implements StoryRepo {
 			if (sGen.equals("Mystery")) {
 				ps.setInt(6, 1);
 			}
-			if (sGen.equals("Fantast")) {
+			if (sGen.equals("Fantasy")) {
 				ps.setInt(6, 2);
 			}
 			if (sGen.equals("Horror")) {
@@ -162,7 +164,7 @@ public class StoryDAO implements StoryRepo {
 
 	@Override
 	public Story getStoryById(Integer id) {
-		String sql = "select * from stories where story_id = ?;";
+		String sql = "SELECT * FROM stories s LEFT JOIN genres g ON s.genre_id = g.genre_id LEFT JOIN weights w ON w.weight_id = s.weight_id WHERE s.story_id = ?;";
 
 		try {
 
