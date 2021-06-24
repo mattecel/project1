@@ -20,11 +20,23 @@ public class EmployeeDAO implements EmployeeRepo {
 	@Override
 	public void updateEmployee(Employee e) {
 		String sql = "update employees set employee_story1 = ?, employee_story2 = ?, employee_story3 = ? where employee_id = ?;";
+		Integer st1id = 0;
+		Integer st2id = 0;
+		Integer st3id = 0;
 
 		try {
-			Integer st1id = e.getStory1().getStoryId();
-			Integer st2id = e.getStory2().getStoryId();
-			Integer st3id = e.getStory3().getStoryId();
+			st1id = e.getStory1().getStoryId();
+			if (e.getStory2().getStoryId() != null) {
+				st2id = e.getStory2().getStoryId();
+			} else {
+				st2id = 0;
+			}
+			
+			if (e.getStory3().getStoryId() != null) {
+				st3id = e.getStory3().getStoryId();
+			} else {
+				st3id = 0;
+			}
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, st1id);
@@ -45,7 +57,7 @@ public class EmployeeDAO implements EmployeeRepo {
 
 			ps.executeUpdate();
 
-		} catch (SQLException exc) {
+		} catch (NullPointerException | SQLException exc) {
 			exc.printStackTrace();
 		}
 
@@ -76,7 +88,7 @@ public class EmployeeDAO implements EmployeeRepo {
 				Integer st1id = rs.getInt("employee_story1");
 				Integer st2id = rs.getInt("employee_story2");
 				Integer st3id = rs.getInt("employee_story3");
-
+				
 				if (st1id != null && st1id != 0) {
 					e.setStory1(stDao.getStoryById(st1id));
 				}
@@ -112,8 +124,8 @@ public class EmployeeDAO implements EmployeeRepo {
 				return e;
 			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException | NullPointerException exc) {
+			exc.printStackTrace();
 		}
 		return null;
 	}

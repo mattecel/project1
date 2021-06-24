@@ -1,70 +1,70 @@
 
 const URL = 'http://localhost:8080/project1/controller';
 // temp author object
-let employee = {
+// let employee = {
 
-    "employeeId": 1,
-    "employeeUsername": "demi1",
-    "employeePassword": "123",
-    "employeeFirstName": "Demi",
-    "employeeLastName": "Bush",
-    "employeeType": "assistant",
-    "genre1": "Mystery",
-    "genre2": "Fantasy",
-    "genre3": "Horror",
+//     "employeeId": 1,
+//     "employeeUsername": "demi1",
+//     "employeePassword": "123",
+//     "employeeFirstName": "Demi",
+//     "employeeLastName": "Bush",
+//     "employeeType": "assistant",
+//     "genre1": "Mystery",
+//     "genre2": "Fantasy",
+//     "genre3": "Horror",
 
-    "story1": {
-        "storyId": 1,
-        "title": "All The Devils",
-        "tagline": "Who killed Matt Ecelbarger?",
-        "description": "A novel depicting a justified murder of a mad man",
-        "completionDate": "2021-06-07",
-        "genre": "Mystery",
-        "weight": "Novella",
-        "status": {
-            "statusId": 3,
-            "status": "pending_approval",
-            "priority": false,
-            "statusDate": "2021-06-14",
-            "approval": {
-                "approvalId": 1,
-                "approvalStatus": "committee",
-                "approvalInfo": "Fix this dumb draft u fool",
-                "approvalNumber": 2
-            }
-        }
-    },
-    "story2": {
-        "storyId": 4,
-        "title": "Lord of the Kings",
-        "tagline": "Who will sit on the copper throne?",
-        "description": "An epic article depicting love at first sight",
-        "completionDate": "2021-06-06",
-        "genre": "Fantasy",
-        "weight": "Short Story",
-        "status": {
-            "statusId": 4,
-            "status": "pending_senior",
-            "priority": false,
-            "statusDate": "2021-06-14"
-        }
-    },
-    "story3": {
-        "storyId": 3,
-        "title": "Murder in Heaven",
-        "tagline": "Who killed Santa Claus?",
-        "description": "A short story depicting a bloody end to Saint Nick",
-        "completionDate": "2021-06-07",
-        "genre": "Mystery",
-        "weight": "Novella",
-        "status": {
-            "statusId": 3,
-            "status": "pending_general",
-            "priority": false,
-            "statusDate": "2021-06-14"
-        }
-    }
-};
+//     "story1": {
+//         "storyId": 1,
+//         "title": "All The Devils",
+//         "tagline": "Who killed Matt Ecelbarger?",
+//         "description": "A novel depicting a justified murder of a mad man",
+//         "completionDate": "2021-06-07",
+//         "genre": "Mystery",
+//         "weight": "Novella",
+//         "status": {
+//             "statusId": 3,
+//             "status": "pending_approval",
+//             "priority": false,
+//             "statusDate": "2021-06-14",
+//             "approval": {
+//                 "approvalId": 1,
+//                 "approvalStatus": "committee",
+//                 "approvalInfo": "Fix this dumb draft u fool",
+//                 "approvalNumber": 2
+//             }
+//         }
+//     },
+//     "story2": {
+//         "storyId": 4,
+//         "title": "Lord of the Kings",
+//         "tagline": "Who will sit on the copper throne?",
+//         "description": "An epic article depicting love at first sight",
+//         "completionDate": "2021-06-06",
+//         "genre": "Fantasy",
+//         "weight": "Short Story",
+//         "status": {
+//             "statusId": 4,
+//             "status": "pending_senior",
+//             "priority": false,
+//             "statusDate": "2021-06-14"
+//         }
+//     },
+//     "story3": {
+//         "storyId": 3,
+//         "title": "Murder in Heaven",
+//         "tagline": "Who killed Santa Claus?",
+//         "description": "A short story depicting a bloody end to Saint Nick",
+//         "completionDate": "2021-06-07",
+//         "genre": "Mystery",
+//         "weight": "Novella",
+//         "status": {
+//             "statusId": 3,
+//             "status": "pending_general",
+//             "priority": false,
+//             "statusDate": "2021-06-14"
+//         }
+//     }
+// };
 
 const getStory = () => {
 
@@ -96,7 +96,7 @@ const getStory = () => {
 // *************************
 // change this to getStory()
 // *************************
-window.onload = populateData(employee);
+window.onload = getStory();
 // *************************
 // *************************
 
@@ -131,10 +131,36 @@ function populateData(em) {
     storiesContainer.setAttribute("class", "sto-container");
     storySection.appendChild(storiesContainer);
 
+    // Table
+    let sTbl = document.createElement('table');
+    sTbl.setAttribute("class", "sto__table");
+    storiesContainer.appendChild(sTbl);
+
+
+    //****************************
+    //Table Headers
+    let sthead = document.createElement('thead');
+    sTbl.appendChild(sthead);
+
+    let strh = document.createElement('tr');
+    sthead.appendChild(strh);
+
+    let th1 = document.createElement('th');
+    th1.innerHTML = ""
+
+
+    
+
     let mattArray = [];
     mattArray.push(em.story1)
-    mattArray.push(em.story2)
-    mattArray.push(em.story3)
+    if (em.story2 != null) {
+        mattArray.push(em.story2)
+    }
+    if (em.story3 != null) {
+        mattArray.push(em.story3)
+    }
+
+    console.log(mattArray);
 
     // finding if any statuses are high prio 
     mattArray.map(st => {
@@ -305,7 +331,7 @@ function populateData(em) {
             let appStatus = document.createElement('h5')
             appStatus.innerHTML = app.approvalStatus;
             appStatus.setAttribute("class", "sto-tagline");
-            appBox.appendChild(appStatus);
+            appBox.appendChild(appStatus2);
 
             // Approval Info
             if (app.approvalInfo != null) {

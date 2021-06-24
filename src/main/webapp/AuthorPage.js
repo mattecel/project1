@@ -2,59 +2,59 @@
 const URL = 'http://localhost:8080/project1/controller';
 // temp author object
 let IamthebetterMatt = document.getElementById("weight")
-let author = {"authorId": 1,
-"authorUsername": "lulu1",
-"authorPassword": "123",
-"authorFirstName": "Lulu",
-"authorLastName": "Hill",
-"authorPoints": 60,
-"stories": [
-    {
-        "storyId": 3,
-        "title": "Murder in Heaven",
-        "tagline": "Who killed Santa Claus?",
-        "description": "A short story depicting a bloody end to Saint Nick",
-        "completionDate": "2021-06-07",
-        "genre": "Mystery",
-        "weight": "Novella",
-        "status": {
-            "statusId": 3,
-            "status": "pending_general",
-            "priority": false,
-            "statusDate": "2021-06-14"
-        }
-    },
-    {
-        "storyId": 4,
-        "title": "Lord of the Kings",
-        "tagline": "Who will sit on the copper throne?",
-        "description": "An epic article depicting love at first sight",
-        "completionDate": "2021-06-06",
-        "genre": "Fantasy",
-        "weight": "Short Story",
-        "status": {
-            "statusId": 4,
-            "status": "pending_senior",
-            "priority": false,
-            "statusDate": "2021-06-14"
-        }
-    },
-    {
-        "storyId": 5,
-        "title": "Gone Boy",
-        "tagline": "Where did that boy go?",
-        "description": "An article detailing the horrifying case of John Snow, The Woodland Killer.",
-        "completionDate": "2021-06-05",
-        "genre": "Horror",
-        "weight": "Short Story",
-        "status": {
-            "statusId": 5,
-            "status": "pending_senior",
-            "priority": false,
-            "statusDate": "2021-06-14"
-        }
-    }
-]};
+// let author = {"authorId": 1,
+// "authorUsername": "lulu1",
+// "authorPassword": "123",
+// "authorFirstName": "Lulu",
+// "authorLastName": "Hill",
+// "authorPoints": 60,
+// "stories": [
+//     {
+//         "storyId": 3,
+//         "title": "Murder in Heaven",
+//         "tagline": "Who killed Santa Claus?",
+//         "description": "A short story depicting a bloody end to Saint Nick",
+//         "completionDate": "2021-06-07",
+//         "genre": "Mystery",
+//         "weight": "Novella",
+//         "status": {
+//             "statusId": 3,
+//             "status": "pending_general",
+//             "priority": false,
+//             "statusDate": "2021-06-14"
+//         }
+//     },
+//     {
+//         "storyId": 4,
+//         "title": "Lord of the Kings",
+//         "tagline": "Who will sit on the copper throne?",
+//         "description": "An epic article depicting love at first sight",
+//         "completionDate": "2021-06-06",
+//         "genre": "Fantasy",
+//         "weight": "Short Story",
+//         "status": {
+//             "statusId": 4,
+//             "status": "pending_senior",
+//             "priority": false,
+//             "statusDate": "2021-06-14"
+//         }
+//     },
+//     {
+//         "storyId": 5,
+//         "title": "Gone Boy",
+//         "tagline": "Where did that boy go?",
+//         "description": "An article detailing the horrifying case of John Snow, The Woodland Killer.",
+//         "completionDate": "2021-06-05",
+//         "genre": "Horror",
+//         "weight": "Short Story",
+//         "status": {
+//             "statusId": 5,
+//             "status": "pending_senior",
+//             "priority": false,
+//             "statusDate": "2021-06-14"
+//         }
+//     }
+// ]};
 
 const getStory = () => {
 
@@ -86,7 +86,7 @@ const getStory = () => {
 // *************************
 // change this to getStory()
 // *************************
-window.onload = populateData(author);
+window.onload = getStory();
 // *************************
 // *************************
 
@@ -280,16 +280,18 @@ function showEls() {
 }
 
 
-document.getElementById("add-story__submit").addEventListener('click', addStory);
-
-function addStory() {
+document.getElementById("as-form").addEventListener('submit',(e) => {
+    addStory(e);
+});
+function addStory(e) {
+    e.preventDefault();
     let aSto = {
-            title: document.getElementById(title).value,
-            tagline: document.getElementById(tagline).value,
-            description: document.getElementById(description).value,
-            completionDate: document.getElementById(date).value,
-            genre: document.getElementById(genre).value,
-            weight: document.getElementById(weight).value,
+            title: e.target["title"].value,
+            tagline: e.target["tagline"].value,
+            description: e.target["description"].value,
+            completionDate: e.target["date"].value,
+            genre: e.target["genre"].value,
+            weight: e.target["weight"].value,
             status: {
                 status: "pending_assistant",
                 priority: false,
@@ -341,20 +343,16 @@ function addStory() {
     }
 }
 
-function updateAuthor (at, pts) {
-    let trueValueOfMySoul = at.authorPoints - pts;
+function updateAuthor (attt, pts) {
+    attt["authorPoints"] = attt.authorPoints - pts;
 
-    let author = {
-        authorId: at.authorId,
-        authorPoints: trueValueOfMySoul
-    }
-
-    autJson = JSON.stringify(author);
+    autJson = JSON.stringify(attt);
 
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = postAuthor;
     xhttp.open("POST", URL + "/update-author", true);
-    xhttp.send(stoJson);
+    xhttp.send(autJson);
+    console.log("Author Sent to Back end: " + autJson);
 
     function postAuthor () {
         if (xhttp.readyState == 4) {
@@ -370,9 +368,9 @@ function updateAuthor (at, pts) {
 
 // logout
 let logoutbtn = document.getElementById("logout");
-logoutbtn.addEventListener(() => {
-    logout()
-}, false)
+logoutbtn.addEventListener('click',() => {
+    logout();
+});
 
 function logout() {
     // finish this on backend
@@ -381,7 +379,7 @@ function logout() {
     xhttp.open("GET", URL + "/logout", true);
     xhttp.send();
 
-    function postAuthor () {
+    function logoutPlease () {
         if (xhttp.readyState == 4) {
             if (xhttp.status == 200) {
                 window.location.href = "AuthorLogin.html";

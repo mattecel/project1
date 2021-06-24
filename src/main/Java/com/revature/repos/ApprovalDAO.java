@@ -41,7 +41,11 @@ public class ApprovalDAO implements ApprovalRepo {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, a.getApprovalStatus());
 			ps.setString(2, a.getApprovalInfo());
-			ps.setInt(3, a.getApprovalNumber());
+			if (a.getApprovalNumber() != null) {
+				ps.setInt(3, a.getApprovalNumber());
+			} else {
+				ps.setInt(3, 0);
+			}
 			ps.setInt(4, statusId);
 
 			ps.executeUpdate();

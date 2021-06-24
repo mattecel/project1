@@ -20,11 +20,11 @@ public class StoryDAO implements StoryRepo {
 	private ApprovalRepo appDao = new ApprovalDAO();
 
 	@Override
-	public void addStory(Story story, Integer id) {
+	public Story addStory(Story story, Integer id) {
 		// story_id, title, tagline, description, completion_date, author_id, genre_id,
 		// weight_id, status_id
 		
-		String sql = "insert into stories values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) returning story_id;";
+		String sql = "insert into stories values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) returning *;";
 		
 		String sGen = story.getGenre();
 		String sWei = story.getWeight();
@@ -76,20 +76,23 @@ public class StoryDAO implements StoryRepo {
 				ps.setInt(7, 4);
 			}
 
-			ps.setInt(8, 0);
+			ps.setInt(8, 1);
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				Integer aStoryId = rs.getInt("story_id");
-				staDao.addStatus(stat, aStoryId);
-				Integer statId = staDao.getStatusByStory(aStoryId).getStatusId();
-				updateStoryStatus(statId, aStoryId);
-				appDao.addApproval(aApp, statId);
+				System.out.println(aStoryId);
+				Status statId = staDao.addStatus(stat, aStoryId);
+				Integer astatId = statId.getStatusId();
+				updateStoryStatus(astatId, aStoryId);
+				appDao.addApproval(aApp, astatId);
+				return getStoryById(aStoryId);
 			}
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 
 	}
 

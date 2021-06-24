@@ -27,8 +27,7 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public Story addStory(Story story, Integer authorId) {
-		stoDao.addStory(story, authorId);
-		return stoDao.getStoryById(story.getStoryId());
+		return stoDao.addStory(story, authorId);
 	}
 
 }

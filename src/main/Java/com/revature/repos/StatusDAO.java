@@ -41,7 +41,8 @@ public class StatusDAO implements StatusRepo {
 
 	@Override
 	public Status addStatus(Status st, Integer storyId) {
-		String sql = "insert into statuses values (DEFAULT, ?, ?, ?, ?, ?, ?, ?);";
+		String sql = "insert into statuses values (DEFAULT, ?, ?, ?, ?, ?, ?, ?) returning *;";
+		// id, status, priority, date, assistant info, 
 
 		try {
 
@@ -53,11 +54,14 @@ public class StatusDAO implements StatusRepo {
 			ps.setString(5, st.getAuthorInfo());
 			ps.setString(6, st.getGeneralInfo());
 			ps.setString(7, st.getSeniorInfo());
-			ps.setInt(8, storyId);
 
-			ps.executeUpdate();
+			ResultSet rs = ps.executeQuery();
 			
-			return getStatusByStory(storyId);
+			if (rs.next()) {
+				Status s = new Status();
+				s.setStatusId(rs.getInt("status_id"));
+				return s;
+			}			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
