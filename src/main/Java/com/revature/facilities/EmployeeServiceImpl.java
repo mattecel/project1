@@ -12,7 +12,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee getEmployee(String user, String pass) {
-		System.out.println(empDao.getEmployee(user, pass));
 		return empDao.getEmployee(user, pass);
 	}
 
@@ -41,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		helen.setStory3(st);
 		taylor.setStory3(st);
-		lydia.setStory2(st);
+		lydia.setStory3(st);
 		
 		updateEmployee(helen);
 		updateEmployee(taylor);

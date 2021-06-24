@@ -24,4 +24,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return appDao.getApproval(approvalId);
 	}
 
+	@Override
+	public void addApproval(Approval app, Integer statusId) {
+		appDao.addApproval(app, statusId);
+	}
+
 }

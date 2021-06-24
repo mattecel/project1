@@ -82,7 +82,7 @@ input[type=text], select, textarea {
 }
 
 .login__container {
-    background-color: #2D3142;
+    background-color: #4F5D75;
     border: 0;
     margin: 0;
 }
@@ -181,7 +181,25 @@ input[type=text], select, textarea {
 #stories {
 }
 
+.genre-box {
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+}
+
+.table-wrapper {
+    margin: 50px 10px 5px 10px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+
+.status-wrapper {
+    margin: 0px 10px 5px 10px; 
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+
+
 .sto__table {
+
     border-radius: 5px;
     font-size: 12px;
     font-weight: normal;
@@ -284,6 +302,212 @@ input[type=text], select, textarea {
     }
 }
 
+.xst__table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.xst__table td, .xst__table th {
+    text-align: center;
+    padding: 8px;
+}
+
+.xst__table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.xst__table thead th {
+    color: #ffffff;
+    background: #4FC3A1;
+}
+
+
+.xst__table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #324960;
+}
+
+.xst__table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .xst__table {
+        display: block;
+        width: 100%;
+    }
+    .status-wrapper:before{
+        content: "Scroll horizontally >";
+        display: block;
+        text-align: right;
+        font-size: 11px;
+        color: white;
+        padding: 0 0 10px;
+    }
+    .xst__table thead, .xst__table tbody, .xst__table thead th {
+        display: block;
+    }
+    .xst__table thead th:last-child{
+        border-bottom: none;
+    }
+    .xst__table thead {
+        float: left;
+    }
+    .xst__table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+    }
+    .xst__table td, .xst__table th {
+        padding: 20px .625em .625em .625em;
+        height: 60px;
+        vertical-align: middle;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 120px;
+        font-size: 13px;
+        text-overflow: ellipsis;
+    }
+    .xst__table thead th {
+        text-align: left;
+        border-bottom: 1px solid #f7f7f9;
+    }
+    .xst__table tbody tr {
+        display: table-cell;
+    }
+    .xst__table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .xst__table tr:nth-child(even) {
+        background: transparent;
+    }
+    .xst__table tr td:nth-child(odd) {
+        background: #F8F8F8;
+        border-right: 1px solid #E6E4E4;
+    }
+    .xst__table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .xst__table tbody td {
+        display: block;
+        text-align: center;
+    }
+}
+
+.app__table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.app__table td, .app__table th {
+    text-align: center;
+    padding: 8px;
+}
+
+.app__table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+.app__table thead th {
+    color: #ffffff;
+    background: #4FC3A1;
+}
+
+
+.app__table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #324960;
+}
+
+.app__table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .app__table {
+        display: block;
+        width: 100%;
+    }
+    .status-wrapper:before{
+        content: "Scroll horizontally >";
+        display: block;
+        text-align: right;
+        font-size: 11px;
+        color: white;
+        padding: 0 0 10px;
+    }
+    .app__table thead, .app__table tbody, .app__table thead th {
+        display: block;
+    }
+    .app__table thead th:last-child{
+        border-bottom: none;
+    }
+    .app__table thead {
+        float: left;
+    }
+    .app__table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+    }
+    .app__table td, .app__table th {
+        padding: 20px .625em .625em .625em;
+        height: 60px;
+        vertical-align: middle;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 120px;
+        font-size: 13px;
+        text-overflow: ellipsis;
+    }
+    .app__table thead th {
+        text-align: left;
+        border-bottom: 1px solid #f7f7f9;
+    }
+    .app__table tbody tr {
+        display: table-cell;
+    }
+    .app__table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .app__table tr:nth-child(even) {
+        background: transparent;
+    }
+    .app__table tr td:nth-child(odd) {
+        background: #F8F8F8;
+        border-right: 1px solid #E6E4E4;
+    }
+    .app__table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .app__table tbody td {
+        display: block;
+        text-align: center;
+    }
+}
+
 .sto-box {
     margin: 10px 70px 70px;
     box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
@@ -364,7 +588,7 @@ input[type=text], select, textarea {
 }
 
 .author-body {
-    background-color:#2D3142;
+    background-color:#4F5D75;
 }
 
 .employee-body {

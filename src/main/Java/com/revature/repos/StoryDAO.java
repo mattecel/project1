@@ -1,4 +1,4 @@
-package com.revature.repos;
+ package com.revature.repos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,7 +29,6 @@ public class StoryDAO implements StoryRepo {
 		String sGen = story.getGenre();
 		String sWei = story.getWeight();
 		Status stat = story.getStatus();
-		Approval aApp = stat.getApproval();
 
 		try {
 
@@ -85,7 +84,6 @@ public class StoryDAO implements StoryRepo {
 				Status statId = staDao.addStatus(stat, aStoryId);
 				Integer astatId = statId.getStatusId();
 				updateStoryStatus(astatId, aStoryId);
-				appDao.addApproval(aApp, astatId);
 				return getStoryById(aStoryId);
 			}
 			

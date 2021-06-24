@@ -113,122 +113,172 @@ function populateData (at) {
     storySection.appendChild(storiesContainer);
 
     at.stories.map(st => {
-        // Story Container
-        let stoBox = document.createElement('div');
-        stoBox.setAttribute("class", "sto-box");
+            //Div for holding Story Table
+                let sDiv = document.createElement('div');
+                sDiv.setAttribute("class", "table-wrapper")
+                storiesContainer.appendChild(sDiv)
         
-        // Story Title
-        let stoTitle = document.createElement('h3')
-        stoTitle.innerHTML = st.title;
-        stoTitle.setAttribute("class", "sto-title");
-        stoBox.appendChild(stoTitle);
-
-        // Story Tagline
-        let stoTagline = document.createElement('h5')
-        stoTagline.innerHTML = st.tagline;
-        stoTagline.setAttribute("class", "sto-tagline");
-        stoBox.appendChild(stoTagline);
-
-        // Story description
-        let stoDescription = document.createElement('p')
-        stoDescription.innerHTML = st.description;
-        stoDescription.setAttribute("class", "sto-description");
-        stoBox.appendChild(stoDescription);
-
-        // Story completionDate
-        let stoCompletionDate = document.createElement('p')
-        stoCompletionDate.innerHTML = "Completion Date: " + st.completionDate;
-        stoCompletionDate.setAttribute("class", "sto-completion-date");
-        stoBox.appendChild(stoCompletionDate);
-
-        // Story genre
-        let stoGenre = document.createElement('p')
-        stoGenre.innerHTML = st.genre;
-        stoGenre.setAttribute("class", "sto-genre");
-        stoBox.appendChild(stoGenre);
-
-        // Story weight
-        let stoWeight = document.createElement('p')
-        stoWeight.innerHTML = st.weight;
-        stoWeight.setAttribute("class", "sto-genre");
-        stoBox.appendChild(stoWeight);
-
-        // -----------------------------------------
-        // Status Object
-        let sta = st.status;
-        let staBox = document.createElement('div')
-        staBox.setAttribute("class", "sta-box");
-
-        // Status
-        let staStatus = document.createElement('h5')
-        staStatus.innerHTML = sta.status;
-        staStatus.setAttribute("class", "sto-tagline");
-        staBox.appendChild(staStatus);
-
-        // Status Date
-        let staDate = document.createElement('p')
-        staDate.innerHTML = "Pending Approval Date: " + sta.statusDate;
-        staDate.setAttribute("class", "sto-completion-date");
-        staBox.appendChild(staDate);
-
-        //Assistant Info
-        if (sta.assistantInfo != null) {
-            let staAssistantInfo = document.createElement('p')
-            staAssistantInfo.innerHTML = sta.assistantInfo;
-            staAssistantInfo.setAttribute("class", "sto-description");
-            staBox.appendChild(staAssistantInfo);
-        }
-
-        //General Info
-        if (sta.generalInfo != null) {
-            let staGeneralInfo = document.createElement('p')
-            staGeneralInfo.innerHTML = sta.generalInfo;
-            staGeneralInfo.setAttribute("class", "sto-description");
-            staBox.appendChild(staGeneralInfo);
-        }
-
-        //Senior Info
-        if (sta.seniorInfo != null) {
-            let staSeniorInfo = document.createElement('p')
-            staSeniorInfo.innerHTML = sta.seniorInfo;
-            staSeniorInfo.setAttribute("class", "sto-description");
-            staBox.appendChild(staSeniorInfo);
-        }
-
-        //--------------------------------------
-        // Approval Object 
-        if (sta.status == "pending_approval") {
-            let app = sta.approval;
-            // Approval Box
-            let appBox = document.createElement('div')
-            appBox.setAttribute("class", "app-box");
-
-            // Approval Status
-            let appStatus = document.createElement('h5')
-            appStatus.innerHTML = app.approvalStatus;
-            appStatus.setAttribute("class", "sto-tagline");
-            appBox.appendChild(appStatus);
-
-            // Approval Info
-            if (app.approvalInfo != null) {
-                let appInfo = document.createElement('p')
-                appInfo.innerHTML = app.approvalInfo;
-                appInfo.setAttribute("class", "sto-description");
-                appBox.appendChild(appInfo);
-            }
-
-            // Approval Number
-            let appNumber = document.createElement('h5')
-            appNumber.innerHTML = "Need 3, currently at: " + app.approvalNumber;
-            appNumber.setAttribute("class", "sto-genre");
-            appBox.appendChild(appNumber);
-
-            staBox.appendChild(appBox);
-        }
-
-        // attach populated containers
-        stoBox.appendChild(staBox);
-        storySection.appendChild(stoBox);
+            // Story Table
+            let sTbl = document.createElement('table');
+            sTbl.setAttribute("class", "sto__table");
+            sDiv.appendChild(sTbl);
+        
+        
+            //****************************
+            //Story Table Headers
+            let sthead = document.createElement('thead');
+            sTbl.appendChild(sthead);
+        
+            let strh = document.createElement('tr');
+            sthead.appendChild(strh);
+        
+            let th1 = document.createElement('th');
+            th1.innerHTML = "Title"
+            strh.appendChild(th1);
+        
+            let th2 = document.createElement('th');
+            th2.innerHTML = "Tagline"
+            strh.appendChild(th2);
+        
+            let th3 = document.createElement('th');
+            th3.innerHTML = "Description"
+            strh.appendChild(th3);
+        
+            let th4 = document.createElement('th');
+            th4.innerHTML = "Completion Date"
+            strh.appendChild(th4);
+        
+            let th5 = document.createElement('th');
+            th5.innerHTML = "Genre"
+            strh.appendChild(th5);
+        
+            let th6 = document.createElement('th');
+            th6.innerHTML = "Type"
+            strh.appendChild(th6);
+        
+            let tbody = document.createElement('tbody');
+            sTbl.appendChild(tbody);
+        
+            let tr = document.createElement('tr');
+            sTbl.appendChild(tr);
+        
+            
+                let std1 = document.createElement('td');
+                std1.innerHTML = st.title;
+                tr.appendChild(std1);
+        
+                let std2 = document.createElement('td');
+                std2.innerHTML = st.tagline;
+                tr.appendChild(std2);
+        
+                let std3 = document.createElement('td');
+                std3.innerHTML = st.description;
+                tr.appendChild(std3);
+        
+                let std4 = document.createElement('td');
+                std4.innerHTML = st.completionDate;
+                tr.appendChild(std4);
+        
+                let std5 = document.createElement('td');
+                std5.innerHTML = st.genre;
+                tr.appendChild(std5);
+        
+                let std6 = document.createElement('td');
+                std6.innerHTML = st.weight;
+                tr.appendChild(std6); 
+        
+        
+        
+                    //Div for holding Status Table
+                    let xDiv = document.createElement('div');
+                    xDiv.setAttribute("class", "status-wrapper")
+                    storiesContainer.appendChild(xDiv)
+        
+            // Status Table
+            let xTbl = document.createElement('table');
+            xTbl.setAttribute("class", "xst__table");
+            xDiv.appendChild(xTbl);
+        
+        
+            //****************************
+            //Status Table Headers
+            let xthead = document.createElement('thead');
+            xTbl.appendChild(xthead);
+        
+            let xtrh = document.createElement('tr');
+            xthead.appendChild(xtrh);
+        
+            let xth1 = document.createElement('th');
+            xth1.innerHTML = "Status"
+            xtrh.appendChild(xth1);
+        
+            let xth3 = document.createElement('th');
+            xth3.innerHTML = "Status Date"
+            xtrh.appendChild(xth3);
+        
+            let xtbody = document.createElement('tbody');
+            xTbl.appendChild(xtbody);
+        
+            let xtr = document.createElement('tr');
+            xTbl.appendChild(xtr);
+        
+                let xst = st.status
+        
+                let xtd1 = document.createElement('td');
+                xtd1.innerHTML = xst.status;
+                xtr.appendChild(xtd1);
+        
+                let xtd3 = document.createElement('td');
+                xtd3.innerHTML = xst.statusDate;
+                xtr.appendChild(xtd3);
+        
+            //***************************
+            //******Approval*************
+                if (st.status.status == "pending_approval") {
+                        //Div for holding Story Table
+                    let aDiv = document.createElement('div');
+                    aDiv.setAttribute("class", "status-wrapper")
+                    storiesContainer.appendChild(aDiv)
+        
+        
+        
+                    let aTbl = document.createElement('table');
+                    aTbl.setAttribute("class", "app__table");
+                    aDiv.appendChild(aTbl);
+        
+        
+                    //****************************
+                    //Status Table Headers
+                    let athead = document.createElement('thead');
+                    aTbl.appendChild(athead);
+        
+                    let atrh = document.createElement('tr');
+                    athead.appendChild(atrh);
+        
+                    let ath1 = document.createElement('th');
+                    ath1.innerHTML = "Status"
+                    atrh.appendChild(ath1);
+        
+                    let ath2 = document.createElement('th'); // dont show for author
+                    ath2.innerHTML = "Number out of: 3"
+                    atrh.appendChild(ath2);
+        
+                    let atbody = document.createElement('tbody');
+                    aTbl.appendChild(atbody);
+        
+                    let atr = document.createElement('tr');
+                    aTbl.appendChild(atr);
+        
+                    let ast = st.status.approval
+        
+                    let atd1 = document.createElement('td');
+                    atd1.innerHTML = ast.approvalStatus;
+                    atr.appendChild(atd1);
+        
+                    let atd3 = document.createElement('td');
+                    atd3.innerHTML = ast.approvalNumber;
+                    atr.appendChild(atd3);
+                    }
     })
 }
 
@@ -296,11 +346,6 @@ function addStory(e) {
                 status: "pending_assistant",
                 priority: false,
                 statusDate: "2021-06-25",
-                approval: {
-                    approvalStatus: null,
-                    approvalInfo: null,
-                    approvalNumber: null,
-                }
             }
     }
 

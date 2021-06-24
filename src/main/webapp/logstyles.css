@@ -1,0 +1,290 @@
+/*Login      */
+input[type=text], select, textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+  }
+  
+  /* Style the submit button with a specific background color etc */
+  input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* When moving the mouse over the submit button, add a darker green color */
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+  /* Add a background color and some padding around the form */
+  .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+
+.login {
+    width: 382px;
+    overflow: hidden;
+    margin: auto;
+    margin: 20 0 0 450px;
+    padding: 80px;
+    background-color: #4F5D75;
+}
+
+.logout-button {
+    display:inline-block;
+    padding: 0.46em 1.6em;
+    border:0.1em solid #000000;
+    margin:0 0.2em 0.2em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#EF8354;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    background-color:#2D3142;
+    text-align:center;
+    transition: all 0.15s;
+}
+
+.logout-button:hover{
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    color:#FFFFFF;
+    border-color:#FFFFFF;
+}
+
+@media all and (max-width:30em){
+        .logout-button{
+        display:block;
+        margin:0.4em auto;
+    }
+}
+
+.login__container {
+    background-color: #2D3142;
+    border: 0;
+    margin: 0;
+}
+.login__header {
+    text-align: center;
+    color: #BFC0C0;
+    padding: 20px;
+}
+
+.login__label {
+    color: #BFC0C0;
+    font-size: 17px;
+}
+
+.login__link {
+    float: right;
+    background-color: white;
+}
+
+.employee__container {
+    background-color: #EF8354;
+    border: 0;
+    margin: 0;
+}
+
+.employee {
+    width: 382px;
+    overflow: hidden;
+    margin: auto;
+    margin: 20 0 0 450px;
+    padding: 80px;
+    background-color: #2D3142;
+}
+
+.employee__header{
+    text-align: center;
+    color: #2D3142;
+    padding: 20px;
+}
+
+#username {
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+
+#password {
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+
+#login-button {
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: #EF8354
+}
+
+
+
+/* Author */
+.hidden {
+    display: none;
+}
+
+.add-story__btn {
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: #2D3142;
+    background-color: #EF8354
+}
+
+.author-welcome {
+
+}
+
+.author-points {
+
+}
+
+.sto-container {
+
+}
+
+/* Stories */
+#stories {
+}
+
+
+.sto-box {
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+
+.sto-title {
+
+}
+
+.sto-tagline {
+
+}
+
+.sto-description {
+
+}
+
+.sto-completion-date {
+
+}
+
+.sto-genre {
+
+}
+
+/* status */
+
+.sta-box {
+    background-color: burlywood;
+}
+
+.sta-priority-high {
+    color: red;
+}
+
+.sta-priority-low {
+
+}
+
+.sta-btn {
+
+}
+
+/* Approval */
+
+.app-box {
+    background-color: #04AA6D;
+}
+
+.app-btn {
+    display:inline-block;
+    padding: 0.46em 1.6em;
+    border:0.1em solid #000000;
+    margin:0 0.2em 0.2em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#EF8354;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    background-color:#2D3142;
+    text-align:center;
+    transition: all 0.15s;
+}
+
+.app-btn:hover{
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    color:#FFFFFF;
+    border-color:#FFFFFF;
+}
+
+@media all and (max-width:30em){
+        .app-btn{
+        display:block;
+        margin:0.4em auto;
+    }
+}
+
+.author-body {
+    background-color:#2D3142;
+}
+
+.employee-body {
+    background-color: #EF8354;
+}
+
+#ustat-btn {
+    display:inline-block;
+    padding: 0.46em 1.6em;
+    border:0.1em solid #000000;
+    margin:0 0.2em 0.2em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#EF8354;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    background-color:#2D3142;
+    text-align:center;
+    transition: all 0.15s;
+}
+
+#ustat-btn:hover{
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    color:#FFFFFF;
+    border-color:#FFFFFF;
+}
+
+@media all and (max-width:30em){
+        #ustat-btn{
+        display:block;
+        margin:0.4em auto;
+    }
+}

@@ -93,6 +93,12 @@ const getStory = () => {
         }
     }
 }
+
+let penBtn = document.getElementById("austat");
+penBtn.addEventListener('submit', (e) => {
+    console.log(e);
+    updateStatus(e)
+});
 // *************************
 // change this to getStory()
 // *************************
@@ -105,15 +111,24 @@ function populateData(em) {
     let storySection = document.getElementById("stories");
     let eType = em.employeeType;
 
-    // Employee Welcome
-    let authorWelcome = document.createElement('h2');
-    authorWelcome.innerHTML = "Salutations valued personnel: " + em.employeeFirstName + " " + em.employeeLastName;
-    authorWelcome.setAttribute("class", "author-welcome") ;
-    storySection.appendChild(authorWelcome);
+    let mattArray = [];
+    mattArray.push(em.story1)
+    if (em.story2 != null) {
+        mattArray.push(em.story2)
+    }
+    if (em.story3 != null) {
+        mattArray.push(em.story3)
+    }
+
+    mattArray.map(st => {
+        if (st.status.priority) {
+            prioExists = true;
+        }
+    })
 
     //Employee Genres
     let authorGenreBox = document.createElement('div');
-    authorGenreBox.setAttribute("class", "author-box")
+    authorGenreBox.setAttribute("class", "genre-box")
     storySection.appendChild(authorGenreBox);
 
     let genArr = []
@@ -125,20 +140,36 @@ function populateData(em) {
         authorGenreBox.appendChild(geEl);
     })
 
+    // Employee Welcome
+    let authorWelcome = document.createElement('h2');
+    authorWelcome.innerHTML = "Salutations valued personnel: " + em.employeeFirstName + " " + em.employeeLastName;
+    authorWelcome.setAttribute("class", "author-welcome") ;
+    storySection.appendChild(authorWelcome);
+
+    // Employee Type
+    let eeType = document.createElement('h3');
+    eeType.innerHTML = em.employeeType + " editor"
+    storySection.appendChild(eeType);
 
     // Stories Container
     let storiesContainer = document.createElement('div');
     storiesContainer.setAttribute("class", "sto-container");
     storySection.appendChild(storiesContainer);
 
-    // Table
+    mattArray.map(st => {
+    //Div for holding Story Table
+        let sDiv = document.createElement('div');
+        sDiv.setAttribute("class", "table-wrapper")
+        storiesContainer.appendChild(sDiv)
+
+    // Story Table
     let sTbl = document.createElement('table');
     sTbl.setAttribute("class", "sto__table");
-    storiesContainer.appendChild(sTbl);
+    sDiv.appendChild(sTbl);
 
 
     //****************************
-    //Table Headers
+    //Story Table Headers
     let sthead = document.createElement('thead');
     sTbl.appendChild(sthead);
 
@@ -146,135 +177,174 @@ function populateData(em) {
     sthead.appendChild(strh);
 
     let th1 = document.createElement('th');
-    th1.innerHTML = ""
+    th1.innerHTML = "Title"
+    strh.appendChild(th1);
 
+    let th2 = document.createElement('th');
+    th2.innerHTML = "Tagline"
+    strh.appendChild(th2);
+
+    let th3 = document.createElement('th');
+    th3.innerHTML = "Description"
+    strh.appendChild(th3);
+
+    let th4 = document.createElement('th');
+    th4.innerHTML = "Completion Date"
+    strh.appendChild(th4);
+
+    let th5 = document.createElement('th');
+    th5.innerHTML = "Genre"
+    strh.appendChild(th5);
+
+    let th6 = document.createElement('th');
+    th6.innerHTML = "Type"
+    strh.appendChild(th6);
+
+    let tbody = document.createElement('tbody');
+    sTbl.appendChild(tbody);
+
+    let tr = document.createElement('tr');
+    sTbl.appendChild(tr);
 
     
+        let std1 = document.createElement('td');
+        std1.innerHTML = st.title;
+        tr.appendChild(std1);
 
-    let mattArray = [];
-    mattArray.push(em.story1)
-    if (em.story2 != null) {
-        mattArray.push(em.story2)
-    }
-    if (em.story3 != null) {
-        mattArray.push(em.story3)
-    }
+        let std2 = document.createElement('td');
+        std2.innerHTML = st.tagline;
+        tr.appendChild(std2);
 
-    console.log(mattArray);
+        let std3 = document.createElement('td');
+        std3.innerHTML = st.description;
+        tr.appendChild(std3);
 
-    // finding if any statuses are high prio 
-    mattArray.map(st => {
-        if (st.status.priority) {
-            prioExists = true;
+        let std4 = document.createElement('td');
+        std4.innerHTML = st.completionDate;
+        tr.appendChild(std4);
+
+        let std5 = document.createElement('td');
+        std5.innerHTML = st.genre;
+        tr.appendChild(std5);
+
+        let std6 = document.createElement('td');
+        std6.innerHTML = st.weight;
+        tr.appendChild(std6); 
+
+
+
+            //Div for holding Status Table
+            let xDiv = document.createElement('div');
+            xDiv.setAttribute("class", "status-wrapper")
+            storiesContainer.appendChild(xDiv)
+
+    // Status Table
+    let xTbl = document.createElement('table');
+    xTbl.setAttribute("class", "xst__table");
+    xDiv.appendChild(xTbl);
+
+
+    //****************************
+    //Status Table Headers
+    let xthead = document.createElement('thead');
+    xTbl.appendChild(xthead);
+
+    let xtrh = document.createElement('tr');
+    xthead.appendChild(xtrh);
+
+    let xth1 = document.createElement('th');
+    xth1.innerHTML = "Status"
+    xtrh.appendChild(xth1);
+
+    let xth2 = document.createElement('th'); // dont show for author
+    xth2.innerHTML = "Priority"
+    xtrh.appendChild(xth2);
+
+    let xth3 = document.createElement('th');
+    xth3.innerHTML = "Status Date"
+    xtrh.appendChild(xth3);
+
+    let xtbody = document.createElement('tbody');
+    xTbl.appendChild(xtbody);
+
+    let xtr = document.createElement('tr');
+    xTbl.appendChild(xtr);
+
+        let xst = st.status
+
+        let xtd1 = document.createElement('td');
+        xtd1.innerHTML = xst.status;
+        xtr.appendChild(xtd1);
+
+        let xtd2 = document.createElement('td');
+        if (xst.priority) {
+            xtd2.innerHTML = "High Priority";
+            xtd2.setAttribute("class", "sta-priority-high");
+        } else {
+            xtd2.innerHTML = "Low Priority";
+            xtd2.setAttribute("class", "sta-priority=low");
         }
+        xtr.appendChild(xtd2);
+
+        let xtd3 = document.createElement('td');
+        xtd3.innerHTML = xst.statusDate;
+        xtr.appendChild(xtd3);
+
+    //***************************
+    //******Approval*************
+        if (st.status.status == "pending_approval") {
+                //Div for holding Story Table
+            let aDiv = document.createElement('div');
+            aDiv.setAttribute("class", "status-wrapper")
+            storiesContainer.appendChild(aDiv)
+
+
+
+            let aTbl = document.createElement('table');
+            aTbl.setAttribute("class", "app__table");
+            aDiv.appendChild(aTbl);
+
+
+            //****************************
+            //Status Table Headers
+            let athead = document.createElement('thead');
+            aTbl.appendChild(athead);
+
+            let atrh = document.createElement('tr');
+            athead.appendChild(atrh);
+
+            let ath1 = document.createElement('th');
+            ath1.innerHTML = "Status"
+            atrh.appendChild(ath1);
+
+            let ath2 = document.createElement('th'); // dont show for author
+            ath2.innerHTML = "Number out of: 3"
+            atrh.appendChild(ath2);
+
+            let atbody = document.createElement('tbody');
+            aTbl.appendChild(atbody);
+
+            let atr = document.createElement('tr');
+            aTbl.appendChild(atr);
+
+            let ast = st.status.approval
+
+            let atd1 = document.createElement('td');
+            atd1.innerHTML = ast.approvalStatus;
+            atr.appendChild(atd1);
+
+            let atd3 = document.createElement('td');
+            atd3.innerHTML = ast.approvalNumber;
+            atr.appendChild(atd3);
+            }
     })
 
     mattArray.map(st => {
-
-        // Story Container
-        let stoBox = document.createElement('div');
-        stoBox.setAttribute("class", "sto-box");
-        
-        // Story Title
-        let stoTitle = document.createElement('h3')
-        stoTitle.innerHTML = st.title;
-        stoTitle.setAttribute("class", "sto-title");
-        stoBox.appendChild(stoTitle);
-
-        // Story Tagline
-        let stoTagline = document.createElement('h5')
-        stoTagline.innerHTML = st.tagline;
-        stoTagline.setAttribute("class", "sto-tagline");
-        stoBox.appendChild(stoTagline);
-
-        // Story description
-        let stoDescription = document.createElement('p')
-        stoDescription.innerHTML = st.description;
-        stoDescription.setAttribute("class", "sto-description");
-        stoBox.appendChild(stoDescription);
-
-        // Story completionDate
-        let stoCompletionDate = document.createElement('p')
-        stoCompletionDate.innerHTML = "Completion Date: " + st.completionDate;
-        stoCompletionDate.setAttribute("class", "sto-completion-date");
-        stoBox.appendChild(stoCompletionDate);
-
-        // Story genre
-        let stoGenre = document.createElement('p')
-        stoGenre.innerHTML = st.genre;
-        stoGenre.setAttribute("class", "sto-genre");
-        stoBox.appendChild(stoGenre);
-
-        // Story weight
-        let stoWeight = document.createElement('p')
-        stoWeight.innerHTML = st.weight;
-        stoWeight.setAttribute("class", "sto-genre");
-        stoBox.appendChild(stoWeight);
-
         // -----------------------------------------
-        // Status Object
-        let sta = st.status;
-        let staBox = document.createElement('div')
-        staBox.setAttribute("class", "sta-box");
-
-        // Status Header
-        let staHeader = document.createElement('h3')
-        staHeader.innerHTML = "STATUS";
-        staBox.appendChild(staHeader);
-
-        // Status
-        let staStatus = document.createElement('h5')
-        staStatus.innerHTML = sta.status;
-        staStatus.setAttribute("class", "sto-tagline");
-        staBox.appendChild(staStatus);
-
-        // Priority
-        let staPriority = document.createElement('h5')
-
-        if (sta.priority) {
-            staPriority.innerHTML = "High Priority";
-            staPriority.setAttribute("class", "sta-priority-high");
-        } else {
-            staPriority.innerHTML = "Low Priority";
-            staPriority.setAttribute("class", "sta-priority=low");
-        }
-        staBox.appendChild(staPriority);
-
-        // Status Date
-        let staDate = document.createElement('p')
-        staDate.innerHTML = "Status Date: " + sta.statusDate;
-        staDate.setAttribute("class", "sto-completion-date");
-        staBox.appendChild(staDate);
-
-        //Assistant Info
-        if (sta.assistantInfo != null) {
-            let staAssistantInfo = document.createElement('p')
-            staAssistantInfo.innerHTML = sta.assistantInfo;
-            staAssistantInfo.setAttribute("class", "sto-description");
-            staBox.appendChild(staAssistantInfo);
-        }
-
-        //General Info
-        if (sta.generalInfo != null) {
-            let staGeneralInfo = document.createElement('p')
-            staGeneralInfo.innerHTML = sta.generalInfo;
-            staGeneralInfo.setAttribute("class", "sto-description");
-            staBox.appendChild(staGeneralInfo);
-        }
-
-        //Senior Info
-        if (sta.seniorInfo != null) {
-            let staSeniorInfo = document.createElement('p')
-            staSeniorInfo.innerHTML = sta.seniorInfo;
-            staSeniorInfo.setAttribute("class", "sto-description");
-            staBox.appendChild(staSeniorInfo);
-        }
-
         // Status Approve Button
-        let penBtn = document.getElementById("ustat-btn");
-        penBtn.addEventListener('click',() => {
-            updateStatus(sta)
-        });
+        let sta = st.status;
+        jSta = JSON.stringify(sta);
+
 
         let psta = sta.status;
         let pstaSelect = document.getElementById("ustat-sel")
@@ -282,89 +352,46 @@ function populateData(em) {
         // Dynamically added priority
         if (prioExists) {
             if (sta.priority) {
-                if (psta === "pending_senior" || psta === "pending_approval") {
+                if (psta === "pending_senior") {
                     if (eType === "senior") {
                         let opt1 = document.createElement('option')
                         opt1.innerHTML = st.storyId + ": " + st.title;
-                        opt1.setAttribute("value", st.storyId);
+                        opt1.setAttribute("value", jSta);
                         pstaSelect.appendChild(opt1);
                     }
                 } else {
                     let opt1 = document.createElement('option')
                     opt1.innerHTML = st.storyId + ": " + st.title;
-                    opt1.setAttribute("value", st.storyId);
+                    opt1.setAttribute("value", jSta);
                     pstaSelect.appendChild(opt1);
                 }
             }
         } else {
-            if (psta === "pending_senior" || psta === "pending_approval") {
+            if (psta === "pending_senior") {
                 if (eType === "senior") {
                     let opt1 = document.createElement('option')
                     opt1.innerHTML = st.storyId + ": " + st.title;
-                    opt1.setAttribute("value", st.storyId);
+                    opt1.setAttribute("value", jSta);
                     pstaSelect.appendChild(opt1);
                 }
             } else {
                 let opt1 = document.createElement('option')
                 opt1.innerHTML = st.storyId + ": " + st.title;
-                opt1.setAttribute("value", st.storyId);
+                opt1.setAttribute("value", jSta);
                 pstaSelect.appendChild(opt1);
             }
         }
-
-
-        //--------------------------------------
-        // Approval Object
-        
-        if (sta.status == "pending_approval") {
-            let app = sta.approval;
-            // Approval Box
-            let appBox = document.createElement('div')
-            appBox.setAttribute("class", "app-box");
-
-            // App Header
-            let appHeader = document.createElement('h3')
-            appHeader.innerHTML = "APPROVAL PROCESS";
-            appBox.appendChild(appHeader);
-
-            // Approval Status
-            let appStatus = document.createElement('h5')
-            appStatus.innerHTML = app.approvalStatus;
-            appStatus.setAttribute("class", "sto-tagline");
-            appBox.appendChild(appStatus2);
-
-            // Approval Info
-            if (app.approvalInfo != null) {
-                let appInfo = document.createElement('p')
-                appInfo.innerHTML = app.approvalInfo;
-                appInfo.setAttribute("class", "sto-description");
-                appBox.appendChild(appInfo);
-            }
-
-            // Approval Number
-            let appNumber = document.createElement('h5')
-            appNumber.innerHTML = "Need 3 approval votes, currently at: " + app.approvalNumber;
-            appNumber.setAttribute("class", "sto-genre");
-            appBox.appendChild(appNumber);
-
-            if (appNumber < 3) {
-                let appBtn = document.createElement('button');
-                appBtn.innerHTML = "Final Approval";
-                appBtn.setAttribute("class", "app-btn");
-                appBtn.addEventListener('click', () => {
-                    updateApproval(st)
-                });
-            }
-            staBox.appendChild(appBox);
-        }
-        // attach populated containers
-        stoBox.appendChild(staBox);
-        storySection.appendChild(stoBox);
     })
-
 }
 
-function updateStatus(sta) {
+function updateStatus(e) {
+    e.preventDefault();
+    let sta = JSON.parse(e.target["statusSelect"].value);
+    console.log(sta);
+    let xa = {};
+    if (sta.approval != null) {
+        xa = sta.approval
+    }
     let oldSta = sta.status
     let nSta = ""
     let uSta = sta;
@@ -378,22 +405,61 @@ function updateStatus(sta) {
     if (oldSta === "pending_senior") {
         nSta = "pending_approval"
         console.log(uSta);
-        uSta.status.approval[status] = "committee"
+        addApproval(sta);
+    }
+    if (oldSta === "pending_approval") {
+        if (xa.approvalNumber == 1) {
+            nSta = "pending_approval";
+            uSta.approval["approvalNumber"] = 2;
+            updateApprovalF(uSta)
+        } else {
+            nSta = "approved";
+            updateApproval(sta);
+        }
     }
     
-    uSta[status] = nSta;
+    uSta["status"] = nSta;
+    uSta["priority"] = false;
+    console.log(uSta);
 
     jSta = JSON.stringify(uSta);
 
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = postStatus;
     xhttp.open("POST", URL + "/update-status", true);
+    console.log(jSta);
     xhttp.send(jSta);
 
     function postStatus() {
         if (xhttp.readyState == 4) {
             if (xhttp.status == 200) {
-                location.reload();
+                alert("Status updated. You will see the changes the next time you log in.")
+            } else {
+                // Ready state is done but status code is not "Ok"
+            }
+        } else {
+            // error handling
+        }
+    }
+}
+
+function addApproval (sta) {
+    let approval = {
+        approvalStatus: "committee",
+        approvalNumber: 1,
+        statusId: sta.statusId
+    }
+
+    jApp = JSON.stringify(approval);
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = postApp;
+    xhttp.open("POST", URL + "/add-approval", true);
+    xhttp.send(jApp);
+
+    function postApp () {
+        if (xhttp.readyState == 4) {
+            if (xhttp.status == 200) {
             } else {
                 // Ready state is done but status code is not "Ok"
             }
@@ -404,18 +470,22 @@ function updateStatus(sta) {
 }
 
 function updateApproval(st) {
-    let sid = st.storyId;
+    let sid = st.statusId;
     let author = {
         authorId: 0,
         authorPoints: 0
     }
 
     if (sid == 1) {
-        author[authorId] = 3
-        author[authorPoints] = 100
+        author["authorId"] = 3;
+        author["authorPoints"] = 100;
+    }
+    if (sid == 6) {
+        author["authorId"] = 3;
+        author["authorPoints"] = 100;
     }
 
-    let oApp = st.status.approval;
+    let oApp = st.approval;
     oApp[status] = "approved"
 
     jApp = JSON.stringify(oApp);
@@ -429,7 +499,31 @@ function updateApproval(st) {
         if (xhttp.readyState == 4) {
             if (xhttp.status == 200) {
                 updateAuthor(author)
-                location.reload();
+            } else {
+
+                // Ready state is done but status code is not "Ok"
+            }
+        } else {
+            // error handling
+        }
+    }
+}
+
+function updateApprovalF(st) {
+    let sid = st.statusId;
+
+    let oApp = st.approval;
+
+    jApp = JSON.stringify(oApp);
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = postApproval;
+    xhttp.open("POST", URL + "/update-approval", true);
+    xhttp.send(jApp);
+
+    function postApproval() {
+        if (xhttp.readyState == 4) {
+            if (xhttp.status == 200) {
             } else {
 
                 // Ready state is done but status code is not "Ok"
@@ -445,6 +539,7 @@ function updateAuthor (at) {
         authorId: at.authorId,
         authorPoints: at.authorPoints
     }
+    console.log("you make it here");
 
     jAuthor = JSON.stringify(author);
 

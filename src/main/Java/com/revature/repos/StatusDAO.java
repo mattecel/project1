@@ -31,7 +31,6 @@ public class StatusDAO implements StatusRepo {
 			ps.setInt(8, st.getStatusId());
 
 			ps.executeUpdate();
-			appDao.updateApproval(st.getApproval());
 
 		} catch (SQLException e) {
 			e.printStackTrace();

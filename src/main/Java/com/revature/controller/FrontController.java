@@ -63,6 +63,27 @@ public class FrontController extends HttpServlet {
 			return "Employee [user=" + user + ", pass=" + pass + "]";
 		}
 	}
+	
+	class tempApp {
+		public String approvalStatus;
+		public Integer approvalNumber;
+		public Integer statusId;
+		
+		public tempApp(String approvalStatus, Integer approvalNumber, Integer statusId) {
+			super();
+			this.approvalStatus = approvalStatus;
+			this.approvalNumber = approvalNumber;
+			this.statusId = statusId;
+		}
+
+		@Override
+		public String toString() {
+			return "tempApp [approvalStatus=" + approvalStatus + ", approvalNumber=" + approvalNumber + ", statusId="
+					+ statusId + "]";
+		}
+		
+		
+	}
 
 	private ApprovalService apps = new ApprovalServiceImpl();
 	private AuthorService auths = new AuthorServiceImpl();
@@ -91,7 +112,6 @@ public class FrontController extends HttpServlet {
 		case "author-page": {
 			Author alogg = (Author) session.getAttribute("logged_in");
 			Author loggedAuthor = auths.getAuthor(alogg.getAuthorId());
-			System.out.println(loggedAuthor);
 			response.getWriter().append(gson.toJson(loggedAuthor));
 			System.out.println("Sent author object to front end");
 			break;
@@ -100,7 +120,6 @@ public class FrontController extends HttpServlet {
 		case "employee-page": {
 			Employee elogg = (Employee) session.getAttribute("logged_in");
 			Employee loggedEmployee = ems.getEmployee(elogg.getEmployeeId());
-			System.out.println(loggedEmployee);
 			response.getWriter().append(gson.toJson(loggedEmployee));
 			System.out.println("Sent employee object to front end");
 			break;
@@ -166,7 +185,7 @@ public class FrontController extends HttpServlet {
 			if (em != null) {
 				session.setAttribute("logged_in", em);
 				response.getWriter().append("EmployeePage.html");
-				System.out.println("Author log in g00d");
+				System.out.println("Employee log in g00d");
 			} else {
 				System.out.println("Failed to login at employee");
 			}
@@ -206,9 +225,19 @@ public class FrontController extends HttpServlet {
 		}
 		
 		case "update-status": {
+			System.out.println(request.getReader());
 			Status status = gson.fromJson(request.getReader(), Status.class);
 			System.out.println(status);
 			stas.updateStatus(status);
+			break;
+		}
+		
+		case "add-approval": {
+			tempApp tApp = gson.fromJson(request.getReader(), tempApp.class);
+			Approval zApp = new Approval();
+			zApp.setApprovalStatus("committee");
+			zApp.setApprovalNumber(1);
+			apps.addApproval(zApp, tApp.statusId);
 			break;
 		}
 		
