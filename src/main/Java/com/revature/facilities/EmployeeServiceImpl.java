@@ -36,15 +36,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Integer mattsfavoriteId = st.getStoryId();
 		Employee helen = getEmployee(3);
 		Employee taylor = getEmployee(4);
-		Employee lydia = getEmployee(7);			
+		Employee lydia = getEmployee(7);
+		Employee lara = getEmployee(2);
 		
 		helen.setStory3(st);
 		taylor.setStory3(st);
 		lydia.setStory3(st);
+		lara.setStory3(st);
 		
 		updateEmployee(helen);
 		updateEmployee(taylor);
 		updateEmployee(lydia);
+		updateEmployee(lara);
 	}
 
 }

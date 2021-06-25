@@ -1,5 +1,6 @@
 
 const URL = 'http://localhost:8080/project1/controller';
+
 // temp author object
 // let employee = {
 
@@ -107,6 +108,10 @@ window.onload = getStory();
 // *************************
 
 function populateData(em) {
+    let helenC = false;
+    if (em.employeeFirstName === "Helen") {
+        helenC = true;
+    }
     let prioExists = false;
     let storySection = document.getElementById("stories");
     let eType = em.employeeType;
@@ -120,9 +125,21 @@ function populateData(em) {
         mattArray.push(em.story3)
     }
 
+    document.getElementById("es-form").addEventListener('submit', (e) => {
+        storyEdit(e); // at 634
+    })
+
     mattArray.map(st => {
         if (st.status.priority) {
             prioExists = true;
+        }
+        if (eType === "senior") {
+            document.getElementById("sololo").addEventListener('click', () => {
+                showEdit(st); // at bottom
+            });
+
+        } else {
+            document.getElementById("sololo").setAttribute("class", "hidden");
         }
     })
 
@@ -350,8 +367,23 @@ function populateData(em) {
         let pstaSelect = document.getElementById("ustat-sel")
 
         // Dynamically added priority
-        if (prioExists) {
-            if (sta.priority) {
+            if (prioExists) {
+                if (sta.priority) {
+                    if (psta === "pending_senior") {
+                        if (eType === "senior") {
+                            let opt1 = document.createElement('option')
+                            opt1.innerHTML = st.storyId + ": " + st.title;
+                            opt1.setAttribute("value", jSta);
+                            pstaSelect.appendChild(opt1);
+                        }
+                    } else {
+                        let opt1 = document.createElement('option')
+                        opt1.innerHTML = st.storyId + ": " + st.title;
+                        opt1.setAttribute("value", jSta);
+                        pstaSelect.appendChild(opt1);
+                    }
+                }
+            } else {
                 if (psta === "pending_senior") {
                     if (eType === "senior") {
                         let opt1 = document.createElement('option')
@@ -366,21 +398,6 @@ function populateData(em) {
                     pstaSelect.appendChild(opt1);
                 }
             }
-        } else {
-            if (psta === "pending_senior") {
-                if (eType === "senior") {
-                    let opt1 = document.createElement('option')
-                    opt1.innerHTML = st.storyId + ": " + st.title;
-                    opt1.setAttribute("value", jSta);
-                    pstaSelect.appendChild(opt1);
-                }
-            } else {
-                let opt1 = document.createElement('option')
-                opt1.innerHTML = st.storyId + ": " + st.title;
-                opt1.setAttribute("value", jSta);
-                pstaSelect.appendChild(opt1);
-            }
-        }
     })
 }
 
@@ -585,5 +602,82 @@ function logout() {
         }
     }
 }
+
+function showEdit(st) { // called at 126
+    let esForm = document.getElementById("es-form");
+    let esSelect = document.getElementById("story-sel");
+
+    let sto1 = JSON.stringify(st);
+
+    let st1 = document.createElement('option')
+    st1.innerHTML = st.storyId + ": " + st.title;
+    st1.setAttribute("value", sto1);
+    esSelect.appendChild(st1);
+
+    // if (arr[1] != null && arr[1] != undefined) {
+    //     let sto2 = JSON.stringify(arr[1]);
+
+    //     let st2 = document.createElement('option')
+    //     st2.innerHTML = arr[1].storyId + ": " + arr[1].title;
+    //     st2.setAttribute("value", sto2);
+    //     esSelect.appendChild(st2);
+    // }
+
+    // if (arr[2] != null && arr[2] != undefined) {
+    //     let sto3 = JSON.stringify(arr[2]);
+
+    //     let st3 = document.createElement('option')
+    //     st3.innerHTML = arr[2].storyId + ": " + arr[2].title;
+    //     st3.setAttribute("value", sto3);
+    //     esSelect.appendChild(st3);
+    // }
+
+    let elems = document.querySelectorAll(".hidden")
+    for (let index = 0; index < elems.length; index++) {
+        elems[index].classList.replace('hidden', 'showing')
+    }
+    document.getElementById("sololo").setAttribute("class", "hidden");
+}
+
+function hideEls() {
+    let elems = document.querySelectorAll(".hidden")
+    for (let index = 0; index < elems.length; index++) {
+        elems[index].classList.replace('showing', 'hidden')
+        document.getElementById("sololo").removeAttribute("class", "hidden");
+    }
+}
+
+function storyEdit(e) { // called at 128
+    e.preventDefault();
+    let es = JSON.parse(e.target["storySel"].value);
+    es["title"] = e.target["title"].value;
+    es["tagline"] = e.target["tagline"].value;
+    es["description"] = e.target["description"].value;
+
+    console.log(es);
+
+    jEs = JSON.stringify(es);
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = postStatus;
+    xhttp.open("POST", URL + "/update-story", true);
+    console.log(jEs);
+    xhttp.send(jEs);
+
+    function postStatus() {
+        if (xhttp.readyState == 4) {
+            if (xhttp.status == 200) {
+                alert("Story updated. You will see the changes the next time you log in.")
+                hideEls()
+            } else {
+                // Ready state is done but status code is not "Ok"
+            }
+        } else {
+            // error handling
+        }
+    }
+}
+
+
 
 

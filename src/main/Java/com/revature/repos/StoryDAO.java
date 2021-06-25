@@ -36,7 +36,7 @@ public class StoryDAO implements StoryRepo {
 			ps.setString(1, story.getTitle());
 			ps.setString(2, story.getTagline());
 			ps.setString(3, story.getDescription());
-			ps.setString(4, story.getCompletionDate());
+			ps.setString(4, "11/20/2021");
 			ps.setInt(5, id);
 
 			// -----------Genre----------
@@ -112,7 +112,7 @@ public class StoryDAO implements StoryRepo {
 
 	@Override
 	public void updateStory(Story story) {
-		String sql = "update stories set title = ?, tagline = ?, description = ?, completion_date = ?;";
+		String sql = "update stories set title = ?, tagline = ?, description = ?, completion_date = ? where story_id = ?;";
 		try {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -120,6 +120,7 @@ public class StoryDAO implements StoryRepo {
 			ps.setString(2, story.getTagline());
 			ps.setString(3, story.getDescription());
 			ps.setString(4, story.getCompletionDate());
+			ps.setInt(5, story.getStoryId());
 
 			ps.executeUpdate();
 
