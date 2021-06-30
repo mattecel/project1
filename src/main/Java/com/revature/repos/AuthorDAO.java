@@ -34,7 +34,7 @@ public class AuthorDAO implements AuthorRepo {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -72,6 +72,36 @@ public class AuthorDAO implements AuthorRepo {
 	@Override
 	public Author getAuthor(Integer id) {
 		String sql = "select * from authors where author_id = ?";
+
+		try {
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Author a = new Author();
+				a.setAuthorId(rs.getInt("author_id"));
+				a.setAuthorUsername(rs.getString("author_username"));
+				a.setAuthorPassword(rs.getString("author_password"));
+				a.setAuthorFirstName(rs.getString("author_first_name"));
+				a.setAuthorLastName(rs.getString("author_last_name"));
+				a.setAuthorPoints(rs.getInt("author_points"));
+
+				a.setStories(stoDao.getStories(a.getAuthorId()));
+				return a;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Author getAuthorByStory(Integer id) {
+		String sql = "SELECT * FROM stories s LEFT JOIN authors a ON s.author_id = a.author_id WHERE story_id = ?;";
 
 		try {
 

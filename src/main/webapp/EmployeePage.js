@@ -117,7 +117,10 @@ function populateData(em) {
     let eType = em.employeeType;
 
     let mattArray = [];
-    mattArray.push(em.story1)
+
+    if (em.story1 != null) {
+        mattArray.push(em.story1)
+    }
     if (em.story2 != null) {
         mattArray.push(em.story2)
     }
@@ -397,7 +400,8 @@ function populateData(em) {
                     opt1.setAttribute("value", jSta);
                     pstaSelect.appendChild(opt1);
                 }
-            }
+        }
+
     })
 }
 
@@ -488,18 +492,23 @@ function addApproval (sta) {
 
 function updateApproval(st) {
     let sid = st.statusId;
-    let author = {
-        authorId: 0,
-        authorPoints: 0
+    let aP = 0;
+    if (st.genre === "Novel") {
+        aP = 50;
+    }
+    if (st.genre === "Novella") {
+        aP = 25;
+    }
+    if (st.genre === "Short Story") {
+        aP = 20;
+    }
+    if (st.genre === "Article") {
+        aP = 10;
     }
 
-    if (sid == 1) {
-        author["authorId"] = 3;
-        author["authorPoints"] = 100;
-    }
-    if (sid == 6) {
-        author["authorId"] = 3;
-        author["authorPoints"] = 100;
+    let aarp = {
+        storyId: st.storyId,
+        authorPoints: aP
     }
 
     let oApp = st.approval;
@@ -515,7 +524,7 @@ function updateApproval(st) {
     function postApproval() {
         if (xhttp.readyState == 4) {
             if (xhttp.status == 200) {
-                updateAuthor(author)
+                updateAuthor(aarp)
             } else {
 
                 // Ready state is done but status code is not "Ok"
@@ -551,18 +560,13 @@ function updateApprovalF(st) {
     }
 }
 
-function updateAuthor (at) {
-    let author = {
-        authorId: at.authorId,
-        authorPoints: at.authorPoints
-    }
-    console.log("you make it here");
+function updateAuthor (aarp) {
 
-    jAuthor = JSON.stringify(author);
+    jAarp = JSON.stringify(aarp);
 
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = postAuthor;
-    xhttp.open("POST", URL + "/update-author", true);
+    xhttp.open("POST", URL + "/approved-story", true);
     xhttp.send(jAuthor);
 
     function postAuthor () {

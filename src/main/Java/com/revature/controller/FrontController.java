@@ -84,6 +84,16 @@ public class FrontController extends HttpServlet {
 		
 		
 	}
+	
+	class Aarp {
+		public Integer storyId;
+		public Integer authorPoints;
+		public Aarp(Integer storyId, Integer authorPoints) {
+			super();
+			this.storyId = storyId;
+			this.authorPoints = authorPoints;
+		}
+	}
 
 	private ApprovalService apps = new ApprovalServiceImpl();
 	private AuthorService auths = new AuthorServiceImpl();
@@ -221,6 +231,12 @@ public class FrontController extends HttpServlet {
 			Story story = gson.fromJson(request.getReader(), Story.class);
 			System.out.println(story);
 			stos.updateStory(story);
+			break;
+		}
+		
+		case "approved-story": {
+			Aarp aarp = gson.fromJson(request.getReader(), Aarp.class);
+			stos.approveStory(aarp.storyId, aarp.authorPoints);
 			break;
 		}
 		

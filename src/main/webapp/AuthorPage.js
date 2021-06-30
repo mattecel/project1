@@ -2,6 +2,7 @@
 const URL = 'http://localhost:8080/project1/controller';
 // temp author object
 let IamthebetterMatt = document.getElementById("weight")
+let author = {};
 // let author = {"authorId": 1,
 // "authorUsername": "lulu1",
 // "authorPassword": "123",
@@ -73,6 +74,7 @@ const getStory = () => {
                 rr = r.replace("AuthorLogin.html", "")
                 author = JSON.parse(rr);
                 console.log(author);
+                
                 populateData(author);
 
             } else {
@@ -282,15 +284,14 @@ function populateData (at) {
     })
 }
 
-document.getElementById("sololo").addEventListener('click', showAddStory);
-
-
-function showAddStoryC() {
+document.getElementById("sololo").addEventListener('click', () => {
     showAddStory(author)
-}
+});
 
 function showAddStory(at) {
+    console.log(at);
     let apts = at.authorPoints;
+    console.log("This is how many points they have in option function" + apts);
 
     if(apts >= 50) {
         let novel = document.createElement('option')
@@ -306,14 +307,14 @@ function showAddStory(at) {
         IamthebetterMatt.appendChild(novella);
     }
 
-    if(apts >= 10) {
+    if(apts >= 20) {
         let shortstory = document.createElement('option')
         shortstory.innerHTML = "Short Story (3-10 pages)";
         shortstory.setAttribute("value", "Short Story");
         IamthebetterMatt.appendChild(shortstory);
     }
 
-    if(apts >= 0) {      
+    if(apts >= 10) {      
         let article = document.createElement('option')
         article.innerHTML = "Article (1-2 pages)";
         article.setAttribute("value", "Article");

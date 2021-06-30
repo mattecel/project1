@@ -8,4 +8,5 @@ public interface AuthorRepo {
 	
 	Author getAuthor(String user, String pass);
 	Author getAuthor(Integer id);
+	Author getAuthorByStory(Integer id);
 }

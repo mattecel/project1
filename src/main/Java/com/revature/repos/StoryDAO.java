@@ -17,7 +17,6 @@ public class StoryDAO implements StoryRepo {
 
 	private Connection conn = JDBCConnection.getConnection();
 	private StatusRepo staDao = new StatusDAO();
-	private ApprovalRepo appDao = new ApprovalDAO();
 
 	@Override
 	public Story addStory(Story story, Integer id) {
