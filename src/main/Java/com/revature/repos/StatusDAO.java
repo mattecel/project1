@@ -19,7 +19,6 @@ public class StatusDAO implements StatusRepo {
 		String sql = "Update statuses set status = ?, priority = ?, status_date = ?, assistant_info = ?, author_info = ?, general_info = ?, senior_info = ? where status_id = ?;";
 
 		try {
-
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, st.getStatus());
 			ps.setBoolean(2, st.isPriority());

@@ -1,5 +1,6 @@
 
 const URL = 'http://localhost:8080/project1/controller';
+let employee = {};
 
 // temp author object
 // let employee = {
@@ -100,6 +101,12 @@ penBtn.addEventListener('submit', (e) => {
     console.log(e);
     updateStatus(e)
 });
+
+let infoForm = document.getElementById("info");
+infoForm.addEventListener('submit', (e) => {
+    console.log(e);
+    updateInfo(e, employee)
+});
 // *************************
 // change this to getStory()
 // *************************
@@ -176,11 +183,35 @@ function populateData(em) {
     storiesContainer.setAttribute("class", "sto-container");
     storySection.appendChild(storiesContainer);
 
+
+    //********************************************************** */
+    // *******************************************************
+    //********************************************************** */
+
     mattArray.map(st => {
+        let xst = st.status
+        let aInfo = false;
+        let gInfo = false;
+        let sInfo = false;
+
+        if (xst.assistantInfo) {
+            aInfo = true;
+        }
+        if (xst.generalInfo) {
+            gInfo = true;
+        }
+        if (xst.seniorInfo) {
+            sInfo = true;
+        }
+
+        // Div for holding all table
+        let yaDiv = document.getElementById("xdiv");
+
+
     //Div for holding Story Table
         let sDiv = document.createElement('div');
         sDiv.setAttribute("class", "table-wrapper")
-        storiesContainer.appendChild(sDiv)
+        yaDiv.appendChild(sDiv)
 
     // Story Table
     let sTbl = document.createElement('table');
@@ -253,10 +284,15 @@ function populateData(em) {
 
 
 
+        //******************************************* */
+        //******************************************* */
+        //******************************************* */
+
+
             //Div for holding Status Table
             let xDiv = document.createElement('div');
             xDiv.setAttribute("class", "status-wrapper")
-            storiesContainer.appendChild(xDiv)
+            yaDiv.appendChild(xDiv)
 
     // Status Table
     let xTbl = document.createElement('table');
@@ -282,15 +318,29 @@ function populateData(em) {
 
     let xth3 = document.createElement('th');
     xth3.innerHTML = "Status Date"
-    xtrh.appendChild(xth3);
+        xtrh.appendChild(xth3);
+        
+        if (aInfo) {
+            let xth3 = document.createElement('th');
+            xth3.innerHTML = "Assistant Info"
+            xtrh.appendChild(xth3);
+        }
+        if (gInfo) {
+            let xth3 = document.createElement('th');
+            xth3.innerHTML = "General Info"
+            xtrh.appendChild(xth3);
+        }
+        if (sInfo) {
+            let xth3 = document.createElement('th');
+            xth3.innerHTML = "Senior Info"
+            xtrh.appendChild(xth3);
+        }
 
-    let xtbody = document.createElement('tbody');
-    xTbl.appendChild(xtbody);
+        let xtbody = document.createElement('tbody');
+        xTbl.appendChild(xtbody);
 
-    let xtr = document.createElement('tr');
-    xTbl.appendChild(xtr);
-
-        let xst = st.status
+        let xtr = document.createElement('tr');
+        xTbl.appendChild(xtr);
 
         let xtd1 = document.createElement('td');
         xtd1.innerHTML = xst.status;
@@ -309,6 +359,22 @@ function populateData(em) {
         let xtd3 = document.createElement('td');
         xtd3.innerHTML = xst.statusDate;
         xtr.appendChild(xtd3);
+
+        if (aInfo) {
+            let xth3 = document.createElement('td');
+            xth3.innerHTML = xst.assistantInfo
+            xtr.appendChild(xth3);
+        }
+        if (gInfo) {
+            let xth3 = document.createElement('td');
+            xth3.innerHTML = xst.generalInfo
+            xtr.appendChild(xth3);
+        }
+        if (sInfo) {
+            let xth3 = document.createElement('td');
+            xth3.innerHTML = xst.seniorInfo
+            xtr.appendChild(xth3);
+        }
 
     //***************************
     //******Approval*************
@@ -368,6 +434,7 @@ function populateData(em) {
 
         let psta = sta.status;
         let pstaSelect = document.getElementById("ustat-sel")
+        let infoSelect = document.getElementById("info-sel")
 
         // Dynamically added priority
             if (prioExists) {
@@ -401,7 +468,21 @@ function populateData(em) {
                     pstaSelect.appendChild(opt1);
                 }
         }
-
+                
+                // InfoOptions 
+                if (prioExists) {
+                    if (sta.priority) {
+                            let opt1 = document.createElement('option')
+                            opt1.innerHTML = st.storyId + ": " + st.title;
+                            opt1.setAttribute("value", jSta);
+                            infoSelect.appendChild(opt1);
+                    }
+                } else {
+                        let opt1 = document.createElement('option')
+                        opt1.innerHTML = st.storyId + ": " + st.title;
+                        opt1.setAttribute("value", jSta);
+                        infoSelect.appendChild(opt1);
+                }
     })
 }
 
@@ -680,6 +761,44 @@ function storyEdit(e) { // called at 128
             // error handling
         }
     }
+}
+
+function updateInfo(e, employee) {
+    e.preventDefault();
+    let status = JSON.parse(e.target["infoSelect"].value);
+    let psta = status["status"];
+
+    if (psta === "pending_senior") {
+        status["seniorInfo"] = e.target["uinfo"].value;
+    }
+
+    if (psta === "pending_general") {
+        status["generalInfo"] = e.target["uinfo"].value;
+    }
+
+    if (psta === "pending_assistant") {
+        status["assistantInfo"] = e.target["uinfo"].value;
+    }
+
+    let jstatus = JSON.stringify(status);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = updateSInfo;
+    xhttp.open("POST", URL + "/update-status", true);
+    xhttp.send(jstatus);
+
+    function updateSInfo() {
+        if (xhttp.readyState == 4) {
+            if (xhttp.status == 200) {
+                alert("Status updated. You will see the changes the next time you log in.")
+                hideEls()
+            } else {
+                // Ready state is done but status code is not "Ok"
+            }
+        } else {
+            // error handling
+        }
+    }
+
 }
 
 
